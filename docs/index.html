@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="auto">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Johnson’s Dictionary 跟读</title>
 <meta name="description" content="剑桥雅思 5 · Test 1 · Reading Passage 1《Johnson’s Dictionary》逐句跟读，离线可用。">
-<meta id="themeColor" name="theme-color" content="#f5f3ee">
+<meta name="theme-color" content="#f5f3ee">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
@@ -17,7 +17,6 @@
   --go:#18925f; --go-soft:#ddf3e8;
   --hl:#ffdf7e; --hl-ink:#1b1c21;
   --bubble:#eef0fe; --bubble-line:#d3d6f6; --zh:#33364a;
-  --warn-bg:#fff4dc; --warn-line:#f0d9a2; --warn-ink:#6b4b06;
   --shadow:0 1px 2px rgba(25,25,50,.06),0 6px 20px rgba(25,25,50,.07);
   --fs:19px;
   --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
@@ -25,73 +24,31 @@
   --sans:system-ui,-apple-system,"PingFang SC","HarmonyOS Sans SC","Noto Sans CJK SC","Noto Sans SC","Microsoft YaHei",sans-serif;
   color-scheme:light;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0f1116; --surface:#181b23; --text:#e8e8ee; --muted:#9a9caa; --faint:#676a79; --line:#2a2d38;
-    --accent:#8d94ff; --accent-ink:#11132a; --accent-soft:#252a4d; --accent-text:#aab0ff;
-    --go:#4fd19a; --go-soft:#173528;
-    --hl:#6e5715; --hl-ink:#fff3cc;
-    --bubble:#1d2136; --bubble-line:#30365a; --zh:#d3d5e3;
-    --warn-bg:#2d2512; --warn-line:#4d3f1c; --warn-ink:#f1d9a0;
-    --shadow:0 1px 2px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.35);
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0f1116; --surface:#181b23; --text:#e8e8ee; --muted:#9a9caa; --faint:#676a79; --line:#2a2d38;
-  --accent:#8d94ff; --accent-ink:#11132a; --accent-soft:#252a4d; --accent-text:#aab0ff;
-  --go:#4fd19a; --go-soft:#173528;
-  --hl:#6e5715; --hl-ink:#fff3cc;
-  --bubble:#1d2136; --bubble-line:#30365a; --zh:#d3d5e3;
-  --warn-bg:#2d2512; --warn-line:#4d3f1c; --warn-ink:#f1d9a0;
-  --shadow:0 1px 2px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.35);
-  color-scheme:dark;
-}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 var(--sans);
   -webkit-tap-highlight-color:transparent;overscroll-behavior-y:contain}
-button,select,input{font:inherit;color:inherit}
-button{background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 svg{display:block}
 [hidden]{display:none!important}
 
-/* ---------- top bar ---------- */
-.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:4px;
-  padding:calc(var(--safe-t) + 4px) 6px 4px 16px;background:var(--bg);
+/* ---------- top bar（滚动后显示标题） ---------- */
+.bar{position:sticky;top:0;z-index:20;padding:calc(var(--safe-t) + 14px) 16px 14px;background:var(--bg);
   border-bottom:1px solid transparent;transition:border-color .2s}
 .bar.scrolled{border-bottom-color:var(--line)}
-.bar h1{flex:1;min-width:0;margin:0;font:italic 700 18px/1.2 var(--serif);
+.bar h1{margin:0;font:italic 700 18px/1.2 var(--serif);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .2s}
 .bar.scrolled h1{opacity:1}
-.icon-btn{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:var(--muted)}
-.icon-btn:active{background:var(--accent-soft)}
-.pill{height:44px;padding:0 10px;border-radius:12px;display:flex;align-items:center;gap:7px;font-size:14px;color:var(--muted)}
-.pill:active{background:var(--accent-soft)}
-.pill[aria-pressed="true"]{color:var(--accent-text)}
-.pill[aria-pressed="true"] .bub-ic{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.pill[aria-pressed="true"] .bub-ic::before{background:var(--accent);border-color:var(--accent)}
 
 /* ---------- content ---------- */
 main{max-width:640px;margin:0 auto;padding:0 16px calc(168px + var(--safe-b))}
-.hero{padding:6px 0 4px}
-.kicker{font-size:12px;letter-spacing:.06em;color:var(--muted)}
-.hero h2{margin:6px 0 2px;font:italic 700 31px/1.15 var(--serif);letter-spacing:-.01em}
+.hero{padding:0 0 4px}
+.hero h2{margin:0 0 2px;font:italic 700 31px/1.15 var(--serif);letter-spacing:-.01em}
 .hero .zh-title{font-size:15px;color:var(--muted)}
 
-.card{margin:14px 0 0;padding:12px 12px 12px 14px;border-radius:14px;background:var(--surface);
-  box-shadow:var(--shadow);font-size:14px;line-height:1.6;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
-.card p{margin:0;flex:1}
-.card b{color:var(--text);font-weight:600}
-.card .x{flex:none;margin:-6px -4px -6px 0;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:var(--faint)}
-.card.warn{background:var(--warn-bg);border:1px solid var(--warn-line);box-shadow:none;color:var(--warn-ink)}
-.card.warn b{color:inherit}
-
 .para{margin-top:24px}
-.para-h{display:flex;align-items:center;gap:10px;margin:0 0 6px;font-size:12px;letter-spacing:.06em;color:var(--faint)}
-.para-h::after{content:"";flex:1;height:1px;background:var(--line)}
 
 .s{position:relative;display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:8px;
   margin:0 -10px 2px -8px;padding:10px 10px 4px 8px;border-radius:16px;
@@ -168,42 +125,6 @@ main{max-width:640px;margin:0 auto;padding:0 16px calc(168px + var(--safe-b))}
   opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
-/* ---------- settings sheet ---------- */
-.sheet-bg{position:fixed;inset:0;z-index:40;background:rgba(8,8,20,.45);opacity:0;pointer-events:none;transition:opacity .2s}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;max-height:88vh;overflow-y:auto;overscroll-behavior:contain;
-  background:var(--surface);border-radius:22px 22px 0 0;transform:translateY(105%);transition:transform .26s cubic-bezier(.2,.8,.2,1);
-  padding:6px 18px calc(20px + var(--safe-b))}
-.sheet-open .sheet-bg{opacity:1;pointer-events:auto}
-.sheet-open .sheet{transform:none}
-.grab{width:40px;height:4px;border-radius:2px;background:var(--line);margin:6px auto 10px}
-.sheet-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.sheet-h h3{margin:0;font-size:18px}
-.row{padding:14px 0;border-bottom:1px solid var(--line)}
-.row:last-child{border-bottom:0}
-.row-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
-.row-h label,.row-h span.t{font-weight:600;font-size:15px}
-.row-h .v{font-size:14px;color:var(--accent-text);font-variant-numeric:tabular-nums}
-.row .note{margin:8px 0 0;font-size:12.5px;line-height:1.55;color:var(--muted)}
-.row.inline{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.row.inline .row-h{margin:0}
-.seg{display:flex;gap:3px;padding:3px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
-.seg button{flex:1;height:38px;border-radius:9px;font-size:14px;color:var(--muted);white-space:nowrap}
-.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
-input[type=range]{width:100%;height:32px;margin:0;accent-color:var(--accent)}
-.scale{display:flex;justify-content:space-between;font-size:11px;color:var(--faint);margin-top:-2px}
-select{width:100%;height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg)}
-.switch{position:relative;flex:none;width:52px;height:32px}
-.switch input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
-.switch i{position:absolute;inset:0;border-radius:16px;background:var(--line);transition:background-color .2s;pointer-events:none}
-.switch i::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
-.switch input:checked + i{background:var(--accent)}
-.switch input:checked + i::after{transform:translateX(20px)}
-.btn{height:44px;padding:0 16px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font-size:14px;font-weight:600}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.btns{display:flex;gap:8px;flex-wrap:wrap}
-.status-line{font-size:13px;color:var(--muted)}
-.ok{color:var(--go)}
-
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -211,25 +132,13 @@ select{width:100%;height:44px;padding:0 12px;border-radius:12px;border:1px solid
 
 <header class="bar" id="bar">
   <h1>Johnson’s Dictionary</h1>
-  <button class="pill" id="allZh" aria-pressed="false" aria-label="展开全部中文"><span class="bub-ic">译</span>全部</button>
-  <button class="icon-btn" id="openSet" aria-label="设置">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>
-  </button>
 </header>
 
 <main id="main">
   <section class="hero">
-    <div class="kicker">剑桥雅思 5 · Test 1 · Reading Passage 1</div>
     <h2>Johnson’s Dictionary</h2>
-    <div class="zh-title">约翰逊的词典 · 9 段 · 32 句</div>
+    <div class="zh-title">约翰逊的词典</div>
   </section>
-
-  <div class="card warn" id="voiceWarn" hidden><p id="voiceWarnText"></p></div>
-
-  <div class="card" id="hint" hidden>
-    <p>点 <b>🔊</b> 听整句，点句子下方的 <b>小气泡</b> 看中文。<br>按底部 <b>▶</b> 逐句跟读：每句读完停一下，<b style="color:var(--go)">变绿</b>就轮到你读。</p>
-    <button class="x" id="hintX" aria-label="关闭提示"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </div>
 
   <div id="text"></div>
   <p class="end">— 全文完 · 32 句 —</p>
@@ -259,65 +168,8 @@ select{width:100%;height:44px;padding:0 12px;border-radius:12px;border:1px solid
 
 <div class="toast" id="toast" role="status"></div>
 
-<div class="sheet-bg" id="sheetBg"></div>
-<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="setTitle" aria-hidden="true">
-  <div class="grab"></div>
-  <div class="sheet-h">
-    <h3 id="setTitle">设置</h3>
-    <button class="icon-btn" id="closeSet" aria-label="关闭设置"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </div>
-
-  <div class="row">
-    <div class="row-h"><label for="voiceSel">发音人</label><span class="btns"><button class="btn" id="ttsSet" style="height:34px;padding:0 12px" hidden>系统语音</button><button class="btn" id="testVoice" style="height:34px;padding:0 12px">试听</button></span></div>
-    <select id="voiceSel"></select>
-    <p class="note" id="voiceNote">默认使用美式英语（en-US）。标「离线」的语音不联网也能用。</p>
-  </div>
-
-  <div class="row">
-    <div class="row-h"><label for="rate">语速</label><span class="v" id="rateTxt">0.90×</span></div>
-    <input type="range" id="rate" min="0.5" max="1.3" step="0.05">
-    <div class="scale"><span>0.5 慢</span><span>1.0 正常</span><span>1.3 快</span></div>
-  </div>
-
-  <div class="row">
-    <div class="row-h"><span class="t">跟读停顿</span><span class="v" id="gapTxt"></span></div>
-    <div class="seg" id="gapSeg">
-      <button data-v="0">不停</button><button data-v="1">1×</button><button data-v="1.3">1.3×</button><button data-v="1.6">1.6×</button><button data-v="2">2×</button>
-    </div>
-    <p class="note">每句读完后停多久让你跟读，按这句朗读时长的倍数计算。选「不停」就是连续听。</p>
-  </div>
-
-  <div class="row">
-    <div class="row-h"><span class="t">每句遍数</span></div>
-    <div class="seg" id="repSeg"><button data-v="1">1 遍</button><button data-v="2">2 遍</button><button data-v="3">3 遍</button><button data-v="5">5 遍</button></div>
-  </div>
-
-  <div class="row inline">
-    <div class="row-h"><label for="auto">自动下一句</label></div>
-    <span class="switch"><input type="checkbox" id="auto"><i></i></span>
-  </div>
-
-  <div class="row">
-    <div class="row-h"><span class="t">字号</span></div>
-    <div class="seg" id="fsSeg"><button data-v="17">小</button><button data-v="19">标准</button><button data-v="21">大</button><button data-v="23">特大</button></div>
-  </div>
-
-  <div class="row">
-    <div class="row-h"><span class="t">外观</span></div>
-    <div class="seg" id="themeSeg"><button data-v="auto">跟随系统</button><button data-v="light">浅色</button><button data-v="dark">深色</button></div>
-  </div>
-
-  <div class="row">
-    <div class="row-h"><span class="t">离线与安装</span></div>
-    <p class="status-line" id="offline">检查中…</p>
-    <div class="btns" style="margin-top:10px">
-      <button class="btn primary" id="installBtn" hidden>安装到桌面</button>
-      <button class="btn" id="resetBtn">回到第 1 句</button>
-    </div>
-    <p class="note" id="installNote">在浏览器菜单里选「添加到主屏幕」或「安装应用」，桌面就会有图标，之后断网也能打开。</p>
-  </div>
-</section>
-
+<!-- 每句录音的文件名和逐词时间（tools/audio 生成） -->
+<script src="audio/timings.js"></script>
 <script>
 (() => {
 'use strict';
@@ -423,8 +275,7 @@ const SAY = {
 };
 
 /* ================= 解析 ================= */
-const SENTS = [];   // {p, en, zh, toks, speech, totalW}
-const isWordCh = /[\p{L}\p{N}£]/u;
+const SENTS = [];   // {p, en, zh, toks, speech}：speech 是生成录音用的朗读文本，toks[].start 是每个词在里面的位置
 
 function parseSentence(raw, over) {
   const toks = [];
@@ -440,22 +291,16 @@ function parseSentence(raw, over) {
     const lead = m[1], core = m[2], trail = m[3];
     if (speech) speech += ' ';
     const start = speech.length;
-    let w;
     if (!core) {                         // 单独的破折号等
       speech += ',';
-      w = 5;
     } else {
       const say = (over && over[core]) || SAY[core] || core;
       const clean = s => s.replace(/[‘’“”"']/g, '');
       speech += clean(lead) + say.replace(/’/g, "'") + clean(trail);
-      w = say.length + 1;
-      if (/[.!?]/.test(trail)) w += 7; else if (/[,;:)]/.test(trail)) w += 5;
     }
-    toks.push({ lead, core, trail, italic, start, w });
+    toks.push({ lead, core, trail, italic, start });
   }
-  let acc = 0;
-  for (const tk of toks) { tk.w0 = acc; acc += tk.w; }
-  return { toks, speech, totalW: acc };
+  return { toks, speech };
 }
 
 PARAS.forEach((para, p) => para.forEach(([en, zh, over]) => {
@@ -464,16 +309,16 @@ PARAS.forEach((para, p) => para.forEach(([en, zh, over]) => {
 const N = SENTS.length;
 
 /* ================= 设置 ================= */
+const GAP = 1.3;        // 每句读完停「这句录音时长 × 1.3」让你跟读
 const KEY = 'jd-reader-v1';
-const DEF = { rate: 0.9, repeats: 1, gap: 1.3, auto: true, fs: 19, theme: 'auto', voiceURI: '', cur: 0, hint: true, cps: 0 };
-let S = { ...DEF };
-try { Object.assign(S, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
+let S = { rate: 0.9, repeats: 1, cur: 0 };
+try { const o = JSON.parse(localStorage.getItem(KEY) || '{}'); for (const k in S) if (k in o) S[k] = o[k]; } catch (e) {}
 if (!(S.cur >= 0 && S.cur < N)) S.cur = 0;
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
 
 /* ================= DOM ================= */
 const $ = id => document.getElementById(id);
-const APP = window.AndroidApp || null;   // 在 Android 应用里运行（见 android/，朗读走系统 TextToSpeech）
+const APP = window.AndroidApp || null;   // 在 Android 应用里运行（见 android/）
 const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 const ICON_SPK = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3.8 9.4h3.4l4.5-3.9a.6.6 0 0 1 1 .45v12.1a.6.6 0 0 1-1 .45l-4.5-3.9H3.8a.8.8 0 0 1-.8-.8V10.2a.8.8 0 0 1 .8-.8z" fill="currentColor" stroke="none"/><path class="wv wv1" d="M15.6 9.3a4 4 0 0 1 0 5.4"/><path class="wv wv2" d="M18.3 6.6a7.9 7.9 0 0 1 0 10.8"/></svg>';
@@ -483,7 +328,7 @@ function renderText() {
   SENTS.forEach((s, i) => {
     if (s.p !== lastP) {
       if (lastP >= 0) html += '</section>';
-      html += `<section class="para"><h3 class="para-h">PARAGRAPH ${s.p + 1} · 第 ${s.p + 1} 段</h3>`;
+      html += '<section class="para">';
       lastP = s.p;
     }
     const words = s.toks.map((t, k) => t.core
@@ -508,83 +353,38 @@ renderText();
 
 const sEl = i => $('s' + i);
 
-/* ================= 外观 ================= */
-const mqDark = matchMedia('(prefers-color-scheme: dark)');
-function applyLook() {
-  document.documentElement.dataset.theme = S.theme;
-  document.documentElement.style.setProperty('--fs', S.fs + 'px');
-  const dark = S.theme === 'dark' || (S.theme === 'auto' && mqDark.matches);
-  $('themeColor').setAttribute('content', dark ? '#0f1116' : '#f5f3ee');
-}
-mqDark.addEventListener ? mqDark.addEventListener('change', applyLook) : mqDark.addListener(applyLook);
-applyLook();
-
-/* ================= 提示 & Toast ================= */
+/* ================= Toast ================= */
 let toastT = 0;
 function toast(msg, ms = 2600) {
   const t = $('toast'); t.textContent = msg; t.classList.add('show');
   clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), ms);
 }
-$('hint').hidden = !S.hint;
-$('hintX').onclick = () => { S.hint = false; save(); $('hint').hidden = true; };
 
-/* ================= 语音 ================= */
-const synth = window.speechSynthesis;
-const hasTTS = !!(synth && window.SpeechSynthesisUtterance);
-let voices = [], voice = null;
+/* ================= 录音（内置美式英语） =================
+   audio/ 里每句一个 mp3，是用 Kokoro 美式英语发音人预先生成的，不依赖手机自带的语音引擎；
+   timings.js 里记录每个词在录音里开始的时间，用来逐词高亮。 */
+const AUDIO = self.SENT_AUDIO || [];
+const player = new Audio();
+const urls = new Map();     // i -> Promise<blob URL>：整句先读进内存再播，安卓 WebView 里更稳
 
-function langScore(v) {
-  const l = (v.lang || '').replace('_', '-').toLowerCase();
-  let s = 0;
-  if (l === 'en-us') s += 100; else if (l.startsWith('en')) s += 40;
-  if (v.localService) s += 10;
-  if (/google|samantha|natural|enhanced|neural/i.test(v.name)) s += 3;
-  return s;
-}
-function loadVoices() {
-  if (!hasTTS) return;
-  const all = synth.getVoices() || [];
-  voices = all.filter(v => /^en([-_]|$)/i.test(v.lang || '')).sort((a, b) => langScore(b) - langScore(a));
-  voice = voices.find(v => v.voiceURI === S.voiceURI) || voices[0] || null;
-  const sel = $('voiceSel');
-  sel.innerHTML = voices.length
-    ? voices.map(v => `<option value="${esc(v.voiceURI)}">${esc(v.name)} · ${esc(v.lang)}${v.localService ? ' · 离线' : ''}</option>`).join('')
-    : '<option value="">系统默认语音</option>';
-  if (voice) sel.value = voice.voiceURI;
-  if (voices.length) $('voiceWarn').hidden = true;
-}
-function warnVoice(html) { $('voiceWarnText').innerHTML = html; $('voiceWarn').hidden = false; }
-if (APP) {
-  $('ttsSet').hidden = false;
-  $('ttsSet').onclick = () => APP.openTtsSettings();
-  $('voiceWarn').addEventListener('click', e => { if (e.target.closest('[data-tts-settings]')) APP.openTtsSettings(); });
-}
-
-if (!hasTTS) {
-  warnVoice('<b>这个浏览器不支持朗读。</b>请用 <b>Chrome</b> 或 <b>Edge</b> 打开本页。');
-} else {
-  loadVoices();
-  if (synth.addEventListener) synth.addEventListener('voiceschanged', loadVoices);
-  else synth.onvoiceschanged = loadVoices;
-  // 部分安卓浏览器不触发 voiceschanged，轮询几次
-  let tries = 0;
-  const poll = setInterval(() => {
-    loadVoices();
-    if (voices.length || ++tries > 12) {
-      clearInterval(poll);
-      if (!voices.length) warnVoice('<b>没有找到英文发音人</b>，会先用系统默认语音试读。如果听不到英文：在手机「设置」里搜索<b>「文字转语音」</b>，首选引擎选支持英语的（如 Google 文字转语音），并下载<b>英语（美国）</b>语音包，然后' + (APP
-        ? '回到这里。<br><button class="btn" data-tts-settings style="margin-top:10px">打开语音设置</button>'
-        : '重新打开本页。'));
-    }
-  }, 250);
+function audioUrl(i) {
+  if (!urls.has(i)) {
+    const p = AUDIO[i]
+      ? fetch('audio/' + AUDIO[i].file).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.blob(); })
+          .then(b => URL.createObjectURL(b))
+      : Promise.reject(new Error('没有第 ' + (i + 1) + ' 句的录音'));
+    p.catch(() => urls.delete(i));
+    urls.set(i, p);
+  }
+  return urls.get(i);
 }
 
 /* ================= 播放引擎 ================= */
 let gen = 0;            // 每次新动作 +1，旧回调自动作废
 let mode = 'idle';      // idle | loop | once
 let phase = 'idle';     // idle | speak | gap
-let curUtter = null;    // 防止被 GC 导致 onend 不触发
-let estTimer = 0, litTok = null, onceIdx = -1;
+let stopAudio = null;   // 正在播放的那句：调用它立即结束
+let litTok = null, onceIdx = -1;
 const waits = new Set();
 
 function wait(ms) {
@@ -607,74 +407,46 @@ function tokAtChar(s, ci) {
   for (let j = 0; j < s.toks.length; j++) { if (s.toks[j].start <= ci) { if (s.toks[j].core) k = j; } else break; }
   return k;
 }
-function tokAtWeight(s, w) {
-  let k = null;
-  for (let j = 0; j < s.toks.length; j++) { if (s.toks[j].w0 <= w) { if (s.toks[j].core) k = j; } else break; }
-  return k;
-}
-function stopEst() { clearInterval(estTimer); estTimer = 0; }
-
-function speakSentence(i, g, rateOverride) {
+function speakSentence(i, g) {
   return new Promise(resolve => {
-    const s = SENTS[i];
-    const rate = rateOverride || S.rate;
-    const u = new SpeechSynthesisUtterance(s.speech);
-    u.lang = voice ? voice.lang : 'en-US';
-    if (voice) u.voice = voice;
-    u.rate = rate; u.pitch = 1; u.volume = 1;
-    curUtter = u;
-    let t0 = 0, gotBoundary = false, done = false;
-    const tCall = performance.now();
-    const cps = S.cps || 15;                         // 每秒“权重单位”（倍速 1 时）
-    const estMs = s.totalW / (cps * rate) * 1000;
-
-    const finish = (ok) => {
+    const s = SENTS[i], marks = (AUDIO[i] && AUDIO[i].marks) || [];   // [[在朗读文本里的字符位置, 秒], …]
+    let done = false, raf = 0, t0 = 0;
+    const finish = ok => {
       if (done) return; done = true;
-      clearTimeout(guard); stopEst();
+      cancelAnimationFrame(raf);
+      player.onended = player.onerror = null;
+      if (stopAudio === finish) stopAudio = null;
       if (g === gen) lightTok(i, null);
-      const dur = performance.now() - (t0 || tCall);
-      if (ok && dur > 400) {                          // 校准语速估计，下次高亮更准
-        const measured = s.totalW / (dur / 1000) / rate;
-        if (measured > 4 && measured < 40) { S.cps = S.cps ? S.cps * 0.6 + measured * 0.4 : measured; save(); }
-      }
-      resolve({ ok, dur: ok ? dur : 0 });
+      resolve({ ok, dur: ok ? performance.now() - t0 : 0 });
     };
-    const startEst = () => {
-      if (gotBoundary || estTimer) return;
-      const st = t0 || tCall;
-      estTimer = setInterval(() => {
-        if (g !== gen || gotBoundary) return stopEst();
-        const el = performance.now() - st;
-        lightTok(i, tokAtWeight(s, el / 1000 * (S.cps || 15) * rate));
-      }, 60);
+    stopAudio = finish;
+    const follow = () => {
+      const t = player.currentTime;
+      let j = -1;
+      while (j + 1 < marks.length && marks[j + 1][1] <= t) j++;
+      lightTok(i, j < 0 ? null : tokAtChar(s, marks[j][0]));
+      raf = requestAnimationFrame(follow);
     };
-    u.onstart = () => { t0 = performance.now(); if (g === gen) setTimeout(() => { if (!done && g === gen) startEst(); }, 300); };
-    u.onboundary = e => {
-      if (g !== gen || done) return;
-      if (e.name && e.name !== 'word') return;
-      gotBoundary = true; stopEst();
-      lightTok(i, tokAtChar(s, e.charIndex));
-    };
-    u.onend = () => finish(true);
-    u.onerror = e => {
-      const err = e && e.error;
-      if (err !== 'interrupted' && err !== 'canceled' && g === gen) {
-        toast('朗读出错（' + (err || '未知') + '）。请在设置里换个发音人试试。', 4000);
-      }
+    audioUrl(i).then(url => {
+      if (done) return;
+      player.src = url;
+      player.playbackRate = S.rate;
+      player.onended = () => finish(true);
+      player.onerror = () => { if (g === gen) toast('录音播放出错'); finish(false); };
+      return player.play().then(() => { if (!done) { t0 = performance.now(); follow(); } });
+    }).catch(e => {
+      if (!done && g === gen) toast('录音播放失败（' + (e && e.message || e) + '）', 4000);
       finish(false);
-    };
-    // 有的安卓引擎会漏掉 onend，用超时兜底
-    const guard = setTimeout(() => finish(t0 > 0), Math.max(8000, estMs * 3 + 4000));
-    synth.speak(u);
-    // 引擎有时卡在暂停状态
-    if (synth.paused) synth.resume();
+    });
+    if (i + 1 < N) audioUrl(i + 1);                   // 顺便把下一句读进来
   });
 }
 
 function stopAll() {
   gen++;
-  cancelWaits(); stopEst();
-  if (hasTTS) synth.cancel();
+  cancelWaits();
+  player.pause();
+  if (stopAudio) stopAudio(false);
   lightTok(0, null);
   mode = 'idle'; onceIdx = -1;
   setPhase('idle');
@@ -682,12 +454,10 @@ function stopAll() {
 }
 
 async function runLoop(start) {
-  if (!hasTTS) { toast('这个浏览器不支持朗读'); return; }
   stopAll();
   const g = gen;
   mode = 'loop';
   wakeOn();
-  await wait(80);                                    // cancel 后立即 speak 在部分安卓机上会丢
   for (let i = start; i < N; i++) {
     if (g !== gen) return;
     setCur(i, true);
@@ -697,25 +467,18 @@ async function runLoop(start) {
       setPhase('speak');
       const res = await speakSentence(i, g);
       if (g !== gen) return;
-      if (S.gap > 0) {
-        const ms = Math.min(30000, Math.max(1500, (res.dur || 2500) * S.gap));
-        setPhase('gap', ms);
-        await wait(ms);
-      } else {
-        await wait(350);
-      }
+      const ms = Math.min(30000, Math.max(1500, (res.dur || 2500) * GAP));
+      setPhase('gap', ms);
+      await wait(ms);
     }
-    if (!S.auto) break;
   }
   if (g !== gen) return;
-  const atEnd = S.cur === N - 1 && S.auto;
   stopAll();
-  $('pRep').textContent = '';
-  if (atEnd) { $('pState').textContent = '全文跟读完成 🎉'; toast('全文跟读完成！点 ▶ 可从当前句再来一遍'); }
+  $('pState').textContent = '全文跟读完成 🎉';
+  toast('全文跟读完成！点 ▶ 可从当前句再来一遍');
 }
 
 async function playOnce(i) {
-  if (!hasTTS) { toast('这个浏览器不支持朗读'); return; }
   const same = mode === 'once' && onceIdx === i;
   stopAll();
   if (same) return;                                   // 再点一次喇叭 = 停止
@@ -724,8 +487,6 @@ async function playOnce(i) {
   setCur(i, false);
   sEl(i).querySelector('.spk').classList.add('playing');
   setPhase('speak');
-  await wait(60);
-  if (g !== gen) return;
   await speakSentence(i, g);
   if (g !== gen) return;
   stopAll();
@@ -793,7 +554,6 @@ $('text').addEventListener('click', e => {
     const open = bub.getAttribute('aria-expanded') !== 'true';
     bub.setAttribute('aria-expanded', open);
     $('zh' + i).hidden = !open;
-    syncAllZh();
     return;
   }
   if (e.target.closest('.spk')) { playOnce(i); return; }
@@ -802,20 +562,6 @@ $('text').addEventListener('click', e => {
     else { if (mode === 'once') stopAll(); setCur(i, false); }
   }
 });
-
-function syncAllZh() {
-  const all = [...document.querySelectorAll('.bub')].every(b => b.getAttribute('aria-expanded') === 'true');
-  $('allZh').setAttribute('aria-pressed', all);
-  $('allZh').setAttribute('aria-label', all ? '收起全部中文' : '展开全部中文');
-}
-$('allZh').onclick = () => {
-  const open = $('allZh').getAttribute('aria-pressed') !== 'true';
-  document.querySelectorAll('.bub').forEach(b => b.setAttribute('aria-expanded', open));
-  document.querySelectorAll('.zh').forEach(z => { z.hidden = !open; });
-  syncAllZh();
-  toast(open ? '已展开全部中文' : '已收起全部中文', 1400);
-  scrollToSent(sEl(S.cur));
-};
 
 $('play').onclick = () => { if (mode === 'idle') runLoop(S.cur); else stopAll(); };
 $('prev').onclick = () => { const i = Math.max(0, S.cur - 1); if (mode === 'loop') runLoop(i); else { stopAll(); setCur(i, true); } };
@@ -826,45 +572,14 @@ const RATES = [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2];
 $('repBtn').onclick = () => { S.repeats = REPS[(REPS.indexOf(S.repeats) + 1) % REPS.length]; save(); syncControls(); toast(`每句读 ${S.repeats} 遍`, 1200); };
 $('rateBtn').onclick = () => {
   const j = RATES.findIndex(r => r > S.rate + 0.001);
-  S.rate = j < 0 ? RATES[0] : RATES[j]; save(); syncControls(); toast(`语速 ${S.rate.toFixed(1)}×（下一句生效）`, 1200);
+  S.rate = j < 0 ? RATES[0] : RATES[j]; save(); syncControls();
+  player.playbackRate = S.rate;                      // 正在读的这句也立即变速
+  toast(`语速 ${S.rate.toFixed(1)}×`, 1200);
 };
-
-/* ---- 设置面板 ---- */
-function openSheet() {
-  document.body.classList.add('sheet-open'); $('sheet').setAttribute('aria-hidden', 'false');
-  loadVoices(); updateOffline();
-}
-function closeSheet() { document.body.classList.remove('sheet-open'); $('sheet').setAttribute('aria-hidden', 'true'); }
-$('openSet').onclick = openSheet; $('closeSet').onclick = closeSheet; $('sheetBg').onclick = closeSheet;
-
-function bindSeg(id, key, parse, after) {
-  $(id).addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return;
-    S[key] = parse(b.dataset.v); save(); syncControls(); after && after();
-  });
-}
-bindSeg('gapSeg', 'gap', Number);
-bindSeg('repSeg', 'repeats', Number);
-bindSeg('fsSeg', 'fs', Number, applyLook);
-bindSeg('themeSeg', 'theme', String, applyLook);
-$('rate').oninput = e => { S.rate = Math.round(+e.target.value * 100) / 100; save(); syncControls(); };
-$('auto').onchange = e => { S.auto = e.target.checked; save(); };
-$('voiceSel').onchange = e => {
-  voice = voices.find(v => v.voiceURI === e.target.value) || null;
-  S.voiceURI = voice ? voice.voiceURI : ''; S.cps = 0; save();
-};
-$('testVoice').onclick = () => playOnce(S.cur);
-$('resetBtn').onclick = () => { stopAll(); setCur(0, true); closeSheet(); };
 
 function syncControls() {
   $('repVal').textContent = S.repeats + ' 遍';
   $('rateVal').textContent = (+S.rate).toFixed(Math.round(S.rate * 100) % 10 ? 2 : 1) + '×';
-  $('rate').value = S.rate;
-  $('rateTxt').textContent = (+S.rate).toFixed(2) + '×';
-  $('auto').checked = S.auto;
-  $('gapTxt').textContent = S.gap > 0 ? `朗读时长 × ${S.gap}` : '连续听，不停顿';
-  const mark = (id, v) => $(id).querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v) === String(v)));
-  mark('gapSeg', S.gap); mark('repSeg', S.repeats); mark('fsSeg', S.fs); mark('themeSeg', S.theme);
 }
 
 /* ---- 屏幕常亮 ---- */
@@ -881,43 +596,14 @@ addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
 /* ---- 键盘（平板 / 电脑调试用）---- */
 addEventListener('keydown', e => {
-  if (e.target.closest('input,select') || document.body.classList.contains('sheet-open')) { if (e.key === 'Escape') closeSheet(); return; }
   if (e.key === ' ') { e.preventDefault(); $('play').click(); }
   else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); $('next').click(); }
   else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); $('prev').click(); }
 });
 
-/* ================= 离线 / 安装 ================= */
-let installEvt = null;
-addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; $('installBtn').hidden = false; });
-addEventListener('appinstalled', () => { installEvt = null; $('installBtn').hidden = true; toast('已安装到桌面'); });
-$('installBtn').onclick = async () => {
-  if (!installEvt) return;
-  installEvt.prompt();
-  try { await installEvt.userChoice; } catch (e) {}
-  installEvt = null; $('installBtn').hidden = true;
-};
-const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-if (APP) $('installNote').textContent = '页面和文章都打包在应用里，不用联网；朗读用的是手机自带的「文字转语音」。';
-else if (standalone) $('installNote').textContent = '已作为桌面应用运行。';
-
-function updateOffline() {
-  const el = $('offline');
-  if (APP) { el.innerHTML = '<span class="ok">✓ 已安装为 Android 应用，断网也能用</span>'; return; }
-  if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) {
-    el.textContent = location.protocol === 'file:' ? '本地文件模式：可以直接使用，但不能安装到桌面。' : '这个浏览器不支持离线缓存。';
-    return;
-  }
-  navigator.serviceWorker.getRegistration().then(reg => {
-    el.innerHTML = reg && reg.active ? '<span class="ok">✓ 已缓存，断网也能打开</span>' : '首次打开，正在缓存…';
-  });
-}
+/* ================= 离线缓存（网页版；应用里文件本来就在手机上） ================= */
 if (!APP && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-  addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then(reg => {
-      navigator.serviceWorker.ready.then(() => updateOffline());
-    }).catch(() => {});
-  });
+  addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
 
 /* ================= 启动 ================= */
@@ -927,7 +613,7 @@ if (S.cur > 0) setTimeout(() => { sEl(S.cur).scrollIntoView({ block: 'center' })
 setPhase('idle');
 
 // 测试钩子
-window.__reader = { SENTS, get state() { return { mode, phase, cur: S.cur, S }; } };
+window.__reader = { SENTS, AUDIO, player, get state() { return { mode, phase, cur: S.cur, S }; } };
 })();
 </script>
 </body>

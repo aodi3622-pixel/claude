@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- 页面全部打包在应用里；这里只是让 WebView 正常加载 https://appassets.androidplatform.net 这个本地地址 -->
+    <!-- 页面和录音全部打包在应用里；这里只是让 WebView 正常加载 https://appassets.androidplatform.net 这个本地地址 -->
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- Android 11+ 要声明才能找到系统里的文字转语音引擎 -->
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.TTS_SERVICE" />
-        </intent>
-    </queries>
 
     <application
         android:allowBackup="true"
