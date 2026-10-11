@@ -1,6 +1,6 @@
 // 离线缓存：首次打开后，所有文件都存在手机上，断网也能用。
 // 修改任何文件后把版本号 +1，手机下次联网打开时会自动更新。
-const CACHE = 'jd-reader-v4';
+const CACHE = 'jd-reader-v5';
 importScripts('audio/timings.js');           // 录音文件名（self.SENT_AUDIO / self.WORD_AUDIO）
 const ASSETS = [
   './',
