@@ -268,7 +268,7 @@ select{width:100%;height:44px;padding:0 12px;border-radius:12px;border:1px solid
   </div>
 
   <div class="row">
-    <div class="row-h"><label for="voiceSel">发音人</label><button class="btn" id="testVoice" style="height:34px;padding:0 12px">试听</button></div>
+    <div class="row-h"><label for="voiceSel">发音人</label><span class="btns"><button class="btn" id="ttsSet" style="height:34px;padding:0 12px" hidden>系统语音</button><button class="btn" id="testVoice" style="height:34px;padding:0 12px">试听</button></span></div>
     <select id="voiceSel"></select>
     <p class="note" id="voiceNote">默认使用美式英语（en-US）。标「离线」的语音不联网也能用。</p>
   </div>
@@ -473,6 +473,7 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch
 
 /* ================= DOM ================= */
 const $ = id => document.getElementById(id);
+const APP = window.AndroidApp || null;   // 在 Android 应用里运行（见 android/，朗读走系统 TextToSpeech）
 const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 const ICON_SPK = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3.8 9.4h3.4l4.5-3.9a.6.6 0 0 1 1 .45v12.1a.6.6 0 0 1-1 .45l-4.5-3.9H3.8a.8.8 0 0 1-.8-.8V10.2a.8.8 0 0 1 .8-.8z" fill="currentColor" stroke="none"/><path class="wv wv1" d="M15.6 9.3a4 4 0 0 1 0 5.4"/><path class="wv wv2" d="M18.3 6.6a7.9 7.9 0 0 1 0 10.8"/></svg>';
@@ -553,6 +554,11 @@ function loadVoices() {
   if (voices.length) $('voiceWarn').hidden = true;
 }
 function warnVoice(html) { $('voiceWarnText').innerHTML = html; $('voiceWarn').hidden = false; }
+if (APP) {
+  $('ttsSet').hidden = false;
+  $('ttsSet').onclick = () => APP.openTtsSettings();
+  $('voiceWarn').addEventListener('click', e => { if (e.target.closest('[data-tts-settings]')) APP.openTtsSettings(); });
+}
 
 if (!hasTTS) {
   warnVoice('<b>这个浏览器不支持朗读。</b>请用 <b>Chrome</b> 或 <b>Edge</b> 打开本页。');
@@ -566,7 +572,9 @@ if (!hasTTS) {
     loadVoices();
     if (voices.length || ++tries > 12) {
       clearInterval(poll);
-      if (!voices.length) warnVoice('<b>没有找到英文发音人</b>，会先用系统默认语音试读。如果听不到英文：在手机「设置」里搜索<b>「文字转语音」</b>，首选引擎选支持英语的（如 Google 文字转语音），并下载<b>英语（美国）</b>语音包，然后重新打开本页。');
+      if (!voices.length) warnVoice('<b>没有找到英文发音人</b>，会先用系统默认语音试读。如果听不到英文：在手机「设置」里搜索<b>「文字转语音」</b>，首选引擎选支持英语的（如 Google 文字转语音），并下载<b>英语（美国）</b>语音包，然后' + (APP
+        ? '回到这里。<br><button class="btn" data-tts-settings style="margin-top:10px">打开语音设置</button>'
+        : '重新打开本页。'));
     }
   }, 250);
 }
@@ -890,10 +898,12 @@ $('installBtn').onclick = async () => {
   installEvt = null; $('installBtn').hidden = true;
 };
 const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-if (standalone) $('installNote').textContent = '已作为桌面应用运行。';
+if (APP) $('installNote').textContent = '页面和文章都打包在应用里，不用联网；朗读用的是手机自带的「文字转语音」。';
+else if (standalone) $('installNote').textContent = '已作为桌面应用运行。';
 
 function updateOffline() {
   const el = $('offline');
+  if (APP) { el.innerHTML = '<span class="ok">✓ 已安装为 Android 应用，断网也能用</span>'; return; }
   if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) {
     el.textContent = location.protocol === 'file:' ? '本地文件模式：可以直接使用，但不能安装到桌面。' : '这个浏览器不支持离线缓存。';
     return;
@@ -902,7 +912,7 @@ function updateOffline() {
     el.innerHTML = reg && reg.active ? '<span class="ok">✓ 已缓存，断网也能打开</span>' : '首次打开，正在缓存…';
   });
 }
-if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+if (!APP && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
   addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').then(reg => {
       navigator.serviceWorker.ready.then(() => updateOffline());

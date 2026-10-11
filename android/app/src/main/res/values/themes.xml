@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.AppTheme" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- 网页铺满全屏（含状态栏和导航栏后面），上下留白由页面的 safe-area 变量处理 -->
+    <style name="AppTheme" parent="Base.AppTheme">
+        <item name="android:windowBackground">@color/page_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">@bool/light_theme</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">@bool/light_theme</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="28">shortEdges</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="29">false</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="29">false</item>
+        <!-- targetSdk 33+ 时 WebView 的 prefers-color-scheme 跟这个走 -->
+        <item name="android:isLightTheme" tools:targetApi="29">@bool/light_theme</item>
+        <item name="android:windowSplashScreenBackground" tools:targetApi="31">@color/page_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@drawable/splash_icon</item>
+    </style>
+</resources>
