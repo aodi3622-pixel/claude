@@ -1,4 +1,4 @@
-"""生成 docs/audio/：每句一个美式英语录音 sNN.mp3，加上逐词时间 timings.js。
+"""生成 docs/audio/：每句一个美式英语录音 sNN.mp3、每个单词一个 words/*.mp3，加上 timings.js。
 
 发音用 Kokoro-82M（Apache-2.0）的美式英语女声 af_heart，音标由 misaki 转写。
 模型里每个音素的帧数（/encoder/Clip_output_0）被加成额外输出，算出每个词在录音里
@@ -13,6 +13,7 @@
 """
 import argparse
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -68,6 +69,33 @@ def synthesize(text, sess, g2p, vocab, style_pack):
     return audio, marks
 
 
+def trim(audio):
+    """单词录音去掉首尾静音（点了马上出声），两头留一点余量并淡入淡出。"""
+    frame = SAMPLE_RATE // 100
+    n = len(audio) // frame
+    env = np.sqrt(np.mean(audio[:n * frame].reshape(n, frame) ** 2, axis=1))
+    loud = np.where(env > env.max() * 0.02)[0]
+    if not len(loud):
+        return audio
+    a = max(0, loud[0] * frame - SAMPLE_RATE * 3 // 100)
+    b = min(len(audio), (loud[-1] + 1) * frame + SAMPLE_RATE * 8 // 100)
+    out = audio[a:b].copy()
+    fade = SAMPLE_RATE // 200
+    out[:fade] *= np.linspace(0, 1, fade)
+    out[-fade:] *= np.linspace(1, 0, fade)
+    return out
+
+
+def slug(key, taken):
+    base = re.sub(r"[^a-z0-9]+", "_", key).strip("_") or "w"
+    name, n = base, 1
+    while name in taken:
+        n += 1
+        name = f"{base}_{n}"
+    taken.add(name)
+    return name + ".mp3"
+
+
 def encode_mp3(audio, path):
     rms = float(np.sqrt(np.mean(audio ** 2))) or 1.0
     audio = audio * min(TARGET_RMS / rms, 0.97 / float(np.abs(audio).max()))
@@ -85,9 +113,10 @@ def main():
     ap.add_argument("--voices", required=True)
     a = ap.parse_args()
 
-    texts = json.loads(Path(a.speech_json).read_text())
+    data = json.loads(Path(a.speech_json).read_text())
+    texts, words = data["sentences"], data["words"]
     out = Path(a.out_dir)
-    out.mkdir(parents=True, exist_ok=True)
+    (out / "words").mkdir(parents=True, exist_ok=True)
     sess, voc = load_session(a.model), vocab()
     style_pack = np.load(a.voices)[VOICE]
     g2p = en.G2P(trf=False, british=False, fallback=espeak.EspeakFallback(british=False))
@@ -100,11 +129,20 @@ def main():
         entries.append({"file": name, "dur": round(len(audio) / SAMPLE_RATE, 2), "text": text, "marks": marks})
         print(f"{name}  {len(audio) / SAMPLE_RATE:5.1f}s  {len(marks)} words")
 
+    # 单词：单独读一遍（句号让语调自然收尾）
+    word_files, taken = {}, set()
+    for key, say in words.items():
+        audio, _ = synthesize(say + ".", sess, g2p, voc, style_pack)
+        word_files[key] = slug(key, taken)
+        encode_mp3(trim(audio), out / "words" / word_files[key])
+    print(f"{len(word_files)} words")
+
     body = ",\n".join(json.dumps(e, ensure_ascii=False, separators=(",", ":")) for e in entries)
     (out / "timings.js").write_text(
         f"// 由 tools/audio/make_audio.py 生成（Kokoro-82M · {VOICE} 美式英语），不要手改。\n"
-        f"// marks：[词在朗读文本里的字符位置, 在录音里开始的秒数]\n"
-        f"self.SENT_AUDIO = [\n{body}\n];\n", encoding="utf-8")
+        f"// SENT_AUDIO.marks：[词在朗读文本里的字符位置, 在录音里开始的秒数]；WORD_AUDIO：单词（小写）-> words/ 里的文件\n"
+        f"self.SENT_AUDIO = [\n{body}\n];\n"
+        f"self.WORD_AUDIO = {json.dumps(word_files, ensure_ascii=False, indent=0)};\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

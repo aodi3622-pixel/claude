@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowInsets;
-import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebResourceRequest;
@@ -37,7 +36,7 @@ import java.util.regex.Pattern;
 /**
  * 应用外壳：用 WebView 打开 docs/ 里的网页版跟读器（构建时打包进 assets，包括美式英语录音）。
  * 页面从 https://appassets.androidplatform.net 这个本地地址加载，不联网；
- * index.html 返回前在 <head> 里插入 android-bridge.js（保持亮屏、系统栏留白）。
+ * index.html 返回前在 <head> 里插入 android-bridge.js（系统栏留白）。
  */
 public final class MainActivity extends Activity {
 
@@ -69,7 +68,7 @@ public final class MainActivity extends Activity {
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);                       // 阅读进度存在 localStorage
-        s.setMediaPlaybackRequiresUserGesture(false);       // 跟读时一句接一句自动播放
+        s.setMediaPlaybackRequiresUserGesture(false);       // 录音先异步读进内存再播，不在点击的同一时刻
         s.setAllowFileAccess(false);
         s.setAllowContentAccess(false);
         s.setTextZoom(100);                                 // 不叠加系统字体缩放，保持排版
@@ -152,16 +151,6 @@ public final class MainActivity extends Activity {
         @JavascriptInterface
         public String getInsets() {
             return "{\"top\":" + insetTop + ",\"bottom\":" + insetBottom + "}";
-        }
-
-        @JavascriptInterface
-        public void keepScreenOn(final boolean on) {
-            runOnUiThread(new Runnable() {
-                @Override public void run() {
-                    if (on) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                    else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                }
-            });
         }
     }
 

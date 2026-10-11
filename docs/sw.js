@@ -1,7 +1,7 @@
 // 离线缓存：首次打开后，所有文件都存在手机上，断网也能用。
 // 修改任何文件后把版本号 +1，手机下次联网打开时会自动更新。
-const CACHE = 'jd-reader-v3';
-importScripts('audio/timings.js');           // 每句录音的文件名（self.SENT_AUDIO）
+const CACHE = 'jd-reader-v4';
+importScripts('audio/timings.js');           // 录音文件名（self.SENT_AUDIO / self.WORD_AUDIO）
 const ASSETS = [
   './',
   './index.html',
@@ -12,6 +12,7 @@ const ASSETS = [
   './icons/apple-touch-icon.png',
   './audio/timings.js',
   ...self.SENT_AUDIO.map(a => './audio/' + a.file),
+  ...Object.values(self.WORD_AUDIO).map(f => './audio/words/' + f),
 ];
 
 self.addEventListener('install', e => {

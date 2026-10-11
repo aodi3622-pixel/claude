@@ -43,7 +43,7 @@ svg{display:block}
 .bar.scrolled h1{opacity:1}
 
 /* ---------- content ---------- */
-main{max-width:640px;margin:0 auto;padding:0 16px calc(168px + var(--safe-b))}
+main{max-width:640px;margin:0 auto;padding:0 16px calc(48px + var(--safe-b))}
 .hero{padding:0 0 4px}
 .hero h2{margin:0 0 2px;font:italic 700 31px/1.15 var(--serif);letter-spacing:-.01em}
 .hero .zh-title{font-size:15px;color:var(--muted)}
@@ -52,75 +52,39 @@ main{max-width:640px;margin:0 auto;padding:0 16px calc(168px + var(--safe-b))}
 
 .s{position:relative;display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:8px;
   margin:0 -10px 2px -8px;padding:10px 10px 4px 8px;border-radius:16px;
-  transition:background-color .2s,box-shadow .2s;scroll-margin:84px 0 190px}
+  transition:background-color .2s,box-shadow .2s;scroll-margin:84px 0 40px}
 .s.cur{background:var(--surface);box-shadow:var(--shadow)}
 .s.cur::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--accent);transition:background-color .2s}
-.s.cur.turn::before{background:var(--go)}
 .num{padding-top:calc(var(--fs) * .42);text-align:right;font:600 12px/1 var(--sans);color:var(--faint);font-variant-numeric:tabular-nums}
 .s.cur .num{color:var(--accent-text)}
-.s.cur.turn .num{color:var(--go)}
-.en{margin:0;font-family:var(--serif);font-size:var(--fs);line-height:1.62;overflow-wrap:break-word;cursor:pointer}
-.w{border-radius:4px;transition:background-color .08s,color .08s,box-shadow .08s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.en{margin:0;font-family:var(--serif);font-size:var(--fs);line-height:1.7;overflow-wrap:break-word}
+/* 每个词下面一条虚线：点词听读音，并在句子下方弹出这句的中文 */
+.w{cursor:pointer;border-radius:4px;transition:background-color .08s,color .08s,box-shadow .08s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.w .u{text-decoration:underline dotted var(--faint);text-decoration-thickness:1.5px;text-underline-offset:5px}
+.w.sel{background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent-soft)}
+.w.sel .u{text-decoration-color:var(--accent)}
 .w.on{background:var(--hl);color:var(--hl-ink);box-shadow:0 0 0 2px var(--hl)}
 
-.acts{display:flex;align-items:center;justify-content:space-between;height:40px;margin:2px -6px 0 -8px}
-.bub,.spk{height:40px;min-width:44px;padding:0 8px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
-.bub:active,.spk:active{background:var(--accent-soft)}
-.bub-ic{position:relative;display:grid;place-items:center;width:30px;height:22px;border:1.5px solid currentColor;border-radius:8px;
-  font:600 12px/1 var(--sans);transition:background-color .15s,color .15s,border-color .15s}
-.bub-ic::before{content:"";position:absolute;top:-5px;left:6px;width:7px;height:7px;background:var(--bg);
-  border-left:1.5px solid currentColor;border-top:1.5px solid currentColor;transform:rotate(45deg) skew(8deg,8deg)}
-.s.cur .bub-ic::before{background:var(--surface)}
-.bub[aria-expanded="true"]{color:var(--accent-text)}
-.bub[aria-expanded="true"] .bub-ic{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.bub[aria-expanded="true"] .bub-ic::before{background:var(--accent);border-color:var(--accent)}
+.acts{display:flex;justify-content:flex-end;height:40px;margin:2px -6px 0 0}
+.spk{height:40px;min-width:44px;padding:0 8px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.spk:active{background:var(--accent-soft)}
 .spk .wv{opacity:.95}
 .spk.playing{color:var(--accent-text)}
 .spk.playing .wv1{animation:wave 1s ease-in-out infinite}
 .spk.playing .wv2{animation:wave 1s ease-in-out .25s infinite}
 @keyframes wave{0%,100%{opacity:.25}50%{opacity:1}}
 
-.zh{position:relative;margin:6px 0 8px -2px;padding:10px 13px;border-radius:14px;
+.zh{position:relative;margin:10px 0 2px -2px;padding:10px 13px;border-radius:14px;
   background:var(--bubble);border:1px solid var(--bubble-line);color:var(--zh);
   font-size:max(15px,calc(var(--fs) - 3px));line-height:1.75;animation:pop .18s ease-out}
-.zh::before{content:"";position:absolute;top:-7px;left:13px;width:12px;height:12px;background:var(--bubble);
+.zh::before{content:"";position:absolute;top:-7px;left:var(--ax,13px);width:12px;height:12px;background:var(--bubble);
   border-left:1px solid var(--bubble-line);border-top:1px solid var(--bubble-line);transform:rotate(45deg)}
 @keyframes pop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 
 .end{margin:28px 0 0;text-align:center;font-size:13px;color:var(--faint)}
 
-/* ---------- player ---------- */
-.player{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);
-  box-shadow:0 -6px 24px rgba(20,20,40,.06);padding:6px 14px calc(10px + var(--safe-b))}
-.prog{position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--accent);transition:width .3s}
-.p-in{max-width:640px;margin:0 auto}
-.p-status{display:flex;align-items:center;gap:10px;height:26px;font-size:13px;color:var(--muted)}
-.p-pos{min-width:56px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
-.p-state{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.p-state.turn{color:var(--go);font-weight:600}
-.p-state.speak{color:var(--accent-text);font-weight:600}
-.p-rep{min-width:56px;text-align:right;font-variant-numeric:tabular-nums}
-.p-ctrls{display:grid;grid-template-columns:1fr auto auto auto 1fr;align-items:center;column-gap:4px;margin-top:2px}
-.chip{justify-self:start;min-width:66px;height:50px;padding:0 10px;border-radius:14px;background:var(--bg);border:1px solid var(--line);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15}
-.chip:active{background:var(--accent-soft)}
-.chip small{font-size:11px;color:var(--muted)}
-.chip b{font-size:16px;font-weight:650;font-variant-numeric:tabular-nums}
-.chip.r{justify-self:end}
-.nav{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;color:var(--text)}
-.nav:active{background:var(--accent-soft)}
-.nav:disabled{opacity:.3}
-.play{position:relative;width:70px;height:70px;margin:0 6px;border-radius:50%;background:var(--accent);color:var(--accent-ink);
-  display:grid;place-items:center;box-shadow:0 6px 18px rgba(74,80,198,.32)}
-.play:active{transform:scale(.96)}
-.play.turn{background:var(--go)}
-.ring{position:absolute;inset:-7px;width:84px;height:84px;transform:rotate(-90deg);pointer-events:none}
-.ring circle{fill:none;stroke-width:3;stroke-linecap:round}
-.ring .track{stroke:var(--line)}
-.ring .fill{stroke:var(--go);stroke-dasharray:251.33;stroke-dashoffset:251.33}
-
 /* ---------- toast ---------- */
-.toast{position:fixed;left:50%;bottom:calc(150px + var(--safe-b));z-index:50;transform:translate(-50%,10px);max-width:calc(100% - 32px);
+.toast{position:fixed;left:50%;bottom:calc(24px + var(--safe-b));z-index:50;transform:translate(-50%,10px);max-width:calc(100% - 32px);
   padding:10px 16px;border-radius:12px;background:var(--text);color:var(--bg);font-size:14px;line-height:1.5;
   opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -143,28 +107,6 @@ main{max-width:640px;margin:0 auto;padding:0 16px calc(168px + var(--safe-b))}
   <div id="text"></div>
   <p class="end">— 全文完 · 32 句 —</p>
 </main>
-
-<div class="player" id="player">
-  <div class="prog" id="prog"></div>
-  <div class="p-in">
-    <div class="p-status">
-      <span class="p-pos" id="pPos">1 / 32</span>
-      <span class="p-state" id="pState" aria-live="polite">点 ▶ 开始逐句跟读</span>
-      <span class="p-rep" id="pRep"></span>
-    </div>
-    <div class="p-ctrls">
-      <button class="chip" id="repBtn" aria-label="每句遍数"><small>每句</small><b id="repVal">1 遍</b></button>
-      <button class="nav" id="prev" aria-label="上一句"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5.5h2v13H6zM19 6.2v11.6a.8.8 0 0 1-1.2.7L9.6 12.7a.8.8 0 0 1 0-1.4l8.2-5.8a.8.8 0 0 1 1.2.7z"/></svg></button>
-      <button class="play" id="play" aria-label="开始跟读">
-        <svg class="ring" viewBox="0 0 84 84" aria-hidden="true"><circle class="track" cx="42" cy="42" r="40" style="stroke:transparent"/><circle class="fill" id="ringFill" cx="42" cy="42" r="40"/></svg>
-        <svg id="icoPlay" width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.6v12.8a1 1 0 0 0 1.5.86l10.2-6.4a1 1 0 0 0 0-1.72L9.5 4.74A1 1 0 0 0 8 5.6z"/></svg>
-        <svg id="icoPause" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" hidden><rect x="6.5" y="5" width="4" height="14" rx="1.2"/><rect x="13.5" y="5" width="4" height="14" rx="1.2"/></svg>
-      </button>
-      <button class="nav" id="next" aria-label="下一句"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M16 5.5h2v13h-2zM5 6.2v11.6a.8.8 0 0 0 1.2.7l8.2-5.8a.8.8 0 0 0 0-1.4L6.2 5.5A.8.8 0 0 0 5 6.2z"/></svg></button>
-      <button class="chip r" id="rateBtn" aria-label="语速"><small>语速</small><b id="rateVal">0.9×</b></button>
-    </div>
-  </div>
-</div>
 
 <div class="toast" id="toast" role="status"></div>
 
@@ -309,11 +251,10 @@ PARAS.forEach((para, p) => para.forEach(([en, zh, over]) => {
 const N = SENTS.length;
 
 /* ================= 设置 ================= */
-const GAP = 1.3;        // 每句读完停「这句录音时长 × 1.3」让你跟读
+const RATE = 0.8;       // 朗读速度固定 0.8×（整句和单词都是）
 const KEY = 'jd-reader-v1';
-let S = { rate: 0.9, repeats: 1, cur: 0 };
-try { const o = JSON.parse(localStorage.getItem(KEY) || '{}'); for (const k in S) if (k in o) S[k] = o[k]; } catch (e) {}
-if (!(S.cur >= 0 && S.cur < N)) S.cur = 0;
+let S = { cur: -1 };    // 上次点过的句子，下次打开回到这里
+try { const o = JSON.parse(localStorage.getItem(KEY) || '{}'); if (o && o.cur >= 0 && o.cur < N) S.cur = o.cur; } catch (e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
 
 /* ================= DOM ================= */
@@ -332,17 +273,14 @@ function renderText() {
       lastP = s.p;
     }
     const words = s.toks.map((t, k) => t.core
-      ? `<span class="w" data-k="${k}">${esc(t.lead)}${t.italic ? '<i>' : ''}${esc(t.core)}${t.italic ? '</i>' : ''}${esc(t.trail)}</span>`
+      ? `<span class="w" data-k="${k}">${esc(t.lead)}<span class="u">${t.italic ? '<i>' : ''}${esc(t.core)}${t.italic ? '</i>' : ''}</span>${esc(t.trail)}</span>`
       : esc(t.lead + t.trail)).join(' ');
     html += `<article class="s" id="s${i}" data-i="${i}">
       <div class="num">${i + 1}</div>
       <div>
         <p class="en" lang="en">${words}</p>
-        <div class="acts">
-          <button class="bub" aria-expanded="false" aria-controls="zh${i}" aria-label="第${i + 1}句中文翻译"><span class="bub-ic">译</span></button>
-          <button class="spk" aria-label="朗读第${i + 1}句">${ICON_SPK}</button>
-        </div>
         <div class="zh" id="zh${i}" lang="zh-CN" hidden>${esc(s.zh)}</div>
+        <div class="acts"><button class="spk" aria-label="朗读第${i + 1}句">${ICON_SPK}</button></div>
       </div>
     </article>`;
   });
@@ -361,39 +299,28 @@ function toast(msg, ms = 2600) {
 }
 
 /* ================= 录音（内置美式英语） =================
-   audio/ 里每句一个 mp3，是用 Kokoro 美式英语发音人预先生成的，不依赖手机自带的语音引擎；
-   timings.js 里记录每个词在录音里开始的时间，用来逐词高亮。 */
+   audio/ 里每句一个 mp3，audio/words/ 里每个单词一个 mp3，都是用 Kokoro 美式英语发音人预先生成的，
+   不依赖手机自带的语音引擎；timings.js 里记录每句中每个词开始的时间，用来逐词高亮。 */
 const AUDIO = self.SENT_AUDIO || [];
+const WORDS = self.WORD_AUDIO || {};      // 单词（小写）-> 读音文件
+const wordSay = t => (SAY[t.core] || t.core).replace(/’/g, "'");   // 单词单独怎么读（不用整句里的特殊读法）
+const wordKey = t => wordSay(t).toLowerCase();
 const player = new Audio();
-const urls = new Map();     // i -> Promise<blob URL>：整句先读进内存再播，安卓 WebView 里更稳
+const urls = new Map();     // 路径 -> Promise<blob URL>：整段先读进内存再播，安卓 WebView 里更稳
 
-function audioUrl(i) {
-  if (!urls.has(i)) {
-    const p = AUDIO[i]
-      ? fetch('audio/' + AUDIO[i].file).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.blob(); })
-          .then(b => URL.createObjectURL(b))
-      : Promise.reject(new Error('没有第 ' + (i + 1) + ' 句的录音'));
-    p.catch(() => urls.delete(i));
-    urls.set(i, p);
+function blobUrl(path) {
+  if (!urls.has(path)) {
+    const p = fetch(path).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.blob(); })
+      .then(b => URL.createObjectURL(b));
+    p.catch(() => urls.delete(path));
+    urls.set(path, p);
   }
-  return urls.get(i);
+  return urls.get(path);
 }
 
-/* ================= 播放引擎 ================= */
-let gen = 0;            // 每次新动作 +1，旧回调自动作废
-let mode = 'idle';      // idle | loop | once
-let phase = 'idle';     // idle | speak | gap
-let stopAudio = null;   // 正在播放的那句：调用它立即结束
-let litTok = null, onceIdx = -1;
-const waits = new Set();
-
-function wait(ms) {
-  return new Promise(res => {
-    const w = { res, t: setTimeout(() => { waits.delete(w); res(); }, ms) };
-    waits.add(w);
-  });
-}
-function cancelWaits() { for (const w of waits) { clearTimeout(w.t); w.res(); } waits.clear(); }
+/* ================= 播放 ================= */
+let stopAudio = null;   // 正在播放的那段：调用它立即结束
+let litTok = null;
 
 function lightTok(i, k) {
   const el = k == null ? null : sEl(i).querySelector(`.w[data-k="${k}"]`);
@@ -407,213 +334,126 @@ function tokAtChar(s, ci) {
   for (let j = 0; j < s.toks.length; j++) { if (s.toks[j].start <= ci) { if (s.toks[j].core) k = j; } else break; }
   return k;
 }
-function speakSentence(i, g) {
-  return new Promise(resolve => {
-    const s = SENTS[i], marks = (AUDIO[i] && AUDIO[i].marks) || [];   // [[在朗读文本里的字符位置, 秒], …]
-    let done = false, raf = 0, t0 = 0;
-    const finish = ok => {
-      if (done) return; done = true;
-      cancelAnimationFrame(raf);
-      player.onended = player.onerror = null;
-      if (stopAudio === finish) stopAudio = null;
-      if (g === gen) lightTok(i, null);
-      resolve({ ok, dur: ok ? performance.now() - t0 : 0 });
-    };
-    stopAudio = finish;
-    const follow = () => {
-      const t = player.currentTime;
-      let j = -1;
-      while (j + 1 < marks.length && marks[j + 1][1] <= t) j++;
-      lightTok(i, j < 0 ? null : tokAtChar(s, marks[j][0]));
-      raf = requestAnimationFrame(follow);
-    };
-    audioUrl(i).then(url => {
-      if (done) return;
-      player.src = url;
-      player.playbackRate = S.rate;
-      player.onended = () => finish(true);
-      player.onerror = () => { if (g === gen) toast('录音播放出错'); finish(false); };
-      return player.play().then(() => { if (!done) { t0 = performance.now(); follow(); } });
-    }).catch(e => {
-      if (!done && g === gen) toast('录音播放失败（' + (e && e.message || e) + '）', 4000);
-      finish(false);
-    });
-    if (i + 1 < N) audioUrl(i + 1);                   // 顺便把下一句读进来
+
+function stop() {
+  player.pause();
+  if (stopAudio) stopAudio();
+}
+
+/** 播放一段录音；给了 marks（整句）就跟着逐词高亮。结束或被打断时调 onEnd。 */
+function playClip(path, i, marks, onEnd) {
+  stop();
+  const s = SENTS[i];
+  let done = false, raf = 0;
+  const finish = () => {
+    if (done) return; done = true;
+    cancelAnimationFrame(raf);
+    player.onended = player.onerror = null;
+    if (stopAudio === finish) stopAudio = null;
+    if (marks) lightTok(i, null);
+    onEnd();
+  };
+  stopAudio = finish;
+  const follow = () => {
+    const t = player.currentTime;
+    let j = -1;
+    while (j + 1 < marks.length && marks[j + 1][1] <= t) j++;
+    lightTok(i, j < 0 ? null : tokAtChar(s, marks[j][0]));
+    raf = requestAnimationFrame(follow);
+  };
+  blobUrl(path).then(url => {
+    if (done) return;
+    player.src = url;
+    player.playbackRate = RATE;
+    player.onended = finish;
+    player.onerror = () => { toast('录音播放出错'); finish(); };
+    return player.play().then(() => { if (!done && marks) follow(); });
+  }).catch(e => {
+    if (!done) toast('录音播放失败（' + (e && e.message || e) + '）', 4000);
+    finish();
   });
 }
 
-function stopAll() {
-  gen++;
-  cancelWaits();
-  player.pause();
-  if (stopAudio) stopAudio(false);
-  lightTok(0, null);
-  mode = 'idle'; onceIdx = -1;
-  setPhase('idle');
-  wakeOff();
+/** 小喇叭：读整句；正在读时再点一次就停。 */
+function playSentence(i) {
+  const spk = sEl(i).querySelector('.spk');
+  if (spk.classList.contains('playing')) { stop(); return; }
+  setCur(i);
+  if (!AUDIO[i]) { toast('没有这句的录音'); return; }
+  spk.classList.add('playing');
+  playClip('audio/' + AUDIO[i].file, i, AUDIO[i].marks, () => spk.classList.remove('playing'));
 }
 
-async function runLoop(start) {
-  stopAll();
-  const g = gen;
-  mode = 'loop';
-  wakeOn();
-  for (let i = start; i < N; i++) {
-    if (g !== gen) return;
-    setCur(i, true);
-    for (let r = 1; r <= S.repeats; r++) {
-      if (g !== gen) return;
-      $('pRep').textContent = S.repeats > 1 ? `第 ${r}/${S.repeats} 遍` : '';
-      setPhase('speak');
-      const res = await speakSentence(i, g);
-      if (g !== gen) return;
-      const ms = Math.min(30000, Math.max(1500, (res.dur || 2500) * GAP));
-      setPhase('gap', ms);
-      await wait(ms);
-    }
-  }
-  if (g !== gen) return;
-  stopAll();
-  $('pState').textContent = '全文跟读完成 🎉';
-  toast('全文跟读完成！点 ▶ 可从当前句再来一遍');
+/** 点单词：读这个词，并在句子下方弹出这一句的中文。 */
+function tapWord(i, k, el) {
+  setCur(i);
+  showZh(i, el);
+  const file = WORDS[wordKey(SENTS[i].toks[k])];
+  if (file) playClip('audio/words/' + file, i, null, () => {});
+  else stop();
 }
 
-async function playOnce(i) {
-  const same = mode === 'once' && onceIdx === i;
-  stopAll();
-  if (same) return;                                   // 再点一次喇叭 = 停止
-  const g = gen;
-  mode = 'once'; onceIdx = i;
-  setCur(i, false);
-  sEl(i).querySelector('.spk').classList.add('playing');
-  setPhase('speak');
-  await speakSentence(i, g);
-  if (g !== gen) return;
-  stopAll();
+/* ================= 中文气泡（一次只开一句） ================= */
+let openZh = null, selWord = null;
+
+function showZh(i, wordEl) {
+  const zh = $('zh' + i);
+  if (openZh && openZh !== zh) openZh.hidden = true;
+  if (selWord) selWord.classList.remove('sel');
+  selWord = wordEl;
+  wordEl.classList.add('sel');
+  zh.hidden = false;
+  openZh = zh;
+  // 气泡的小尖角对准点的那个词
+  const wr = wordEl.getBoundingClientRect(), zr = zh.getBoundingClientRect();
+  const x = Math.max(14, Math.min(zr.width - 14, wr.left + wr.width / 2 - zr.left));
+  zh.style.setProperty('--ax', (x - 6) + 'px');
+  if (zr.bottom > innerHeight - 16) zh.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+function hideZh() {
+  if (openZh) openZh.hidden = true;
+  if (selWord) selWord.classList.remove('sel');
+  openZh = selWord = null;
 }
 
-/* ================= UI 状态 ================= */
-const CIRC = 251.33;
-function setPhase(p, gapMs) {
-  phase = p;
-  const st = $('pState'), play = $('play'), fill = $('ringFill');
-  const running = mode !== 'idle';
-  $('icoPlay').toggleAttribute('hidden', running); $('icoPause').toggleAttribute('hidden', !running);
-  play.setAttribute('aria-label', running ? '暂停' : '开始跟读');
-  play.classList.toggle('turn', p === 'gap');
-  st.className = 'p-state' + (p === 'gap' ? ' turn' : p === 'speak' ? ' speak' : '');
-  document.querySelectorAll('.s.turn').forEach(e => e.classList.remove('turn'));
-  if (p !== 'speak') document.querySelectorAll('.spk.playing').forEach(e => e.classList.remove('playing'));
-
-  fill.style.transition = 'none';
-  fill.style.strokeDashoffset = CIRC;
-  if (p === 'gap') {
-    sEl(S.cur).classList.add('turn');
-    st.textContent = `🎙 轮到你跟读 · ${Math.round(gapMs / 1000)} 秒`;
-    void fill.getBoundingClientRect();
-    fill.style.transition = `stroke-dashoffset ${gapMs}ms linear`;
-    fill.style.strokeDashoffset = 0;
-  } else if (p === 'speak') {
-    st.textContent = mode === 'once' ? '🔊 整句朗读' : '🔊 听原文…';
-  } else {
-    st.textContent = '点 ▶ 开始逐句跟读';
-    $('pRep').textContent = '';
-  }
-}
-
-function setCur(i, scroll) {
-  i = Math.max(0, Math.min(N - 1, i));
+function setCur(i) {
   const prev = sEl(S.cur);
-  if (prev) prev.classList.remove('cur', 'turn');
+  if (prev) prev.classList.remove('cur');
   S.cur = i; save();
-  const el = sEl(i);
-  el.classList.add('cur');
-  $('pPos').textContent = `${i + 1} / ${N}`;
-  $('prog').style.width = ((i + 1) / N * 100) + '%';
-  $('prev').disabled = i === 0;
-  $('next').disabled = i === N - 1;
-  if (scroll) scrollToSent(el);
-}
-
-function scrollToSent(el) {
-  const r = el.getBoundingClientRect();
-  const top = $('bar').getBoundingClientRect().bottom + 8;
-  const bottom = $('player').getBoundingClientRect().top - 8;
-  if (r.top >= top && r.bottom <= bottom) return;
-  const target = window.scrollY + r.top - top - Math.max(0, (bottom - top - r.height) * 0.25);
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  window.scrollTo({ top: Math.max(0, target), behavior: reduce ? 'auto' : 'smooth' });
+  sEl(i).classList.add('cur');
 }
 
 /* ================= 交互 ================= */
-$('text').addEventListener('click', e => {
-  const art = e.target.closest('.s'); if (!art) return;
+document.addEventListener('click', e => {
+  const art = e.target.closest('.s');
+  if (!art) { hideZh(); return; }
   const i = +art.dataset.i;
-  const bub = e.target.closest('.bub');
-  if (bub) {
-    const open = bub.getAttribute('aria-expanded') !== 'true';
-    bub.setAttribute('aria-expanded', open);
-    $('zh' + i).hidden = !open;
-    return;
-  }
-  if (e.target.closest('.spk')) { playOnce(i); return; }
-  if (e.target.closest('.en')) {
-    if (mode === 'loop') runLoop(i);
-    else { if (mode === 'once') stopAll(); setCur(i, false); }
-  }
+  if (e.target.closest('.spk')) { playSentence(i); return; }
+  const w = e.target.closest('.w');
+  if (w) { tapWord(i, +w.dataset.k, w); return; }
+  hideZh();                                           // 点气泡或空白处收起
 });
 
-$('play').onclick = () => { if (mode === 'idle') runLoop(S.cur); else stopAll(); };
-$('prev').onclick = () => { const i = Math.max(0, S.cur - 1); if (mode === 'loop') runLoop(i); else { stopAll(); setCur(i, true); } };
-$('next').onclick = () => { const i = Math.min(N - 1, S.cur + 1); if (mode === 'loop') runLoop(i); else { stopAll(); setCur(i, true); } };
-
-const REPS = [1, 2, 3, 5];
-const RATES = [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2];
-$('repBtn').onclick = () => { S.repeats = REPS[(REPS.indexOf(S.repeats) + 1) % REPS.length]; save(); syncControls(); toast(`每句读 ${S.repeats} 遍`, 1200); };
-$('rateBtn').onclick = () => {
-  const j = RATES.findIndex(r => r > S.rate + 0.001);
-  S.rate = j < 0 ? RATES[0] : RATES[j]; save(); syncControls();
-  player.playbackRate = S.rate;                      // 正在读的这句也立即变速
-  toast(`语速 ${S.rate.toFixed(1)}×`, 1200);
-};
-
-function syncControls() {
-  $('repVal').textContent = S.repeats + ' 遍';
-  $('rateVal').textContent = (+S.rate).toFixed(Math.round(S.rate * 100) % 10 ? 2 : 1) + '×';
-}
-
-/* ---- 屏幕常亮 ---- */
-let wl = null;
-async function wakeOn() { try { if ('wakeLock' in navigator && !wl) { wl = await navigator.wakeLock.request('screen'); wl.addEventListener('release', () => { wl = null; }); } } catch (e) {} }
-function wakeOff() { try { if (wl) wl.release(); } catch (e) {} wl = null; }
-
 /* ---- 切到后台时停止 ---- */
-document.addEventListener('visibilitychange', () => { if (document.hidden && mode !== 'idle') stopAll(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
 
 /* ---- 顶栏阴影 ---- */
 const onScroll = () => $('bar').classList.toggle('scrolled', window.scrollY > 60);
 addEventListener('scroll', onScroll, { passive: true }); onScroll();
-
-/* ---- 键盘（平板 / 电脑调试用）---- */
-addEventListener('keydown', e => {
-  if (e.key === ' ') { e.preventDefault(); $('play').click(); }
-  else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); $('next').click(); }
-  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); $('prev').click(); }
-});
 
 /* ================= 离线缓存（网页版；应用里文件本来就在手机上） ================= */
 if (!APP && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
   addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
 
-/* ================= 启动 ================= */
-syncControls();
-setCur(S.cur, false);
-if (S.cur > 0) setTimeout(() => { sEl(S.cur).scrollIntoView({ block: 'center' }); toast(`已回到上次的第 ${S.cur + 1} 句`, 1800); }, 50);
-setPhase('idle');
+/* ================= 启动：回到上次的句子 ================= */
+if (S.cur >= 0) {
+  setCur(S.cur);
+  if (S.cur > 0) setTimeout(() => sEl(S.cur).scrollIntoView({ block: 'center' }), 50);
+}
 
 // 测试钩子
-window.__reader = { SENTS, AUDIO, player, get state() { return { mode, phase, cur: S.cur, S }; } };
+window.__reader = { SENTS, AUDIO, WORDS, wordSay, wordKey, player, get state() { return { cur: S.cur, open: openZh && openZh.id }; } };
 })();
 </script>
 </body>

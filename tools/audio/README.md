@@ -1,12 +1,18 @@
 # Recordings
 
-`docs/audio/` holds one American-English recording per sentence (`s01.mp3` … `s32.mp3`) plus `timings.js`. `timings.js` records when each word starts, which drives the word highlighting. The page and the Android app play these files directly; they don't use the phone's text-to-speech.
+`docs/audio/` holds the American-English recordings and `timings.js`:
+
+- one recording per sentence (`s01.mp3` … `s32.mp3`), played by each sentence's speaker button;
+- one per distinct word (`words/*.mp3`), played when a word is tapped;
+- `timings.js`, which records when each word starts in its sentence (for the word highlighting) and maps each word to its file.
+
+The page and the Android app play these files directly; they don't use the phone's text-to-speech.
 
 The voice is `af_heart` from [Kokoro-82M](https://github.com/hexgrad/kokoro) (Apache-2.0), and [misaki](https://github.com/hexgrad/misaki) does the phonemes.
 
 ## Regenerate after changing the text
 
-The recordings are made from the page's own speech text (`SENTS[i].speech`). Regenerate them whenever `PARAS` or `SAY` in `docs/index.html` changes.
+The recordings are made from the page's own text: each sentence's `SENTS[i].speech` and each word's `wordSay`. Regenerate them whenever `PARAS` or `SAY` in `docs/index.html` changes. The process is deterministic, so unchanged sentences come out byte-identical.
 
     npm i playwright
     node tools/audio/dump-speech.cjs > speech.json
