@@ -1,0 +1,6 @@
+node_modules/
+.venv/
+speech.json
+shots/
+tools/audio/*.onnx
+tools/audio/*.bin

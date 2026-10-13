@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Johnson’s Dictionary 跟读</title>
-<meta name="description" content="剑桥雅思 5 · Test 1 · Reading Passage 1《Johnson’s Dictionary》逐句跟读，离线可用。">
+<title>雅思跟读</title>
+<meta name="description" content="剑桥雅思 5 阅读文章和写作范文逐句跟读，离线可用。">
 <meta name="theme-color" content="#f5f3ee">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.webmanifest">
@@ -14,9 +14,8 @@
 :root{
   --bg:#f5f3ee; --surface:#fffefb; --text:#1b1c21; --muted:#6a6c78; --faint:#9c9ea8; --line:#e3e0d7;
   --accent:#4a50c6; --accent-ink:#ffffff; --accent-soft:#e7e8fb; --accent-text:#3d43b3;
-  --go:#18925f; --go-soft:#ddf3e8;
   --hl:#ffdf7e; --hl-ink:#1b1c21;
-  --bubble:#eef0fe; --bubble-line:#d3d6f6; --zh:#33364a;
+  --zh:#33364a;
   --shadow:0 1px 2px rgba(25,25,50,.06),0 6px 20px rgba(25,25,50,.07);
   --fs:19px;
   --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
@@ -38,15 +37,19 @@ svg{display:block}
 .bar{position:sticky;top:0;z-index:20;padding:calc(var(--safe-t) + 14px) 16px 14px;background:var(--bg);
   border-bottom:1px solid transparent;transition:border-color .2s}
 .bar.scrolled{border-bottom-color:var(--line)}
-.bar h1{margin:0;font:italic 700 18px/1.2 var(--serif);
+.bar h1{max-width:640px;margin:0 auto;font:italic 700 18px/1.2 var(--serif);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .2s}
 .bar.scrolled h1{opacity:1}
 
 /* ---------- content ---------- */
-main{max-width:640px;margin:0 auto;padding:0 16px calc(48px + var(--safe-b))}
-.hero{padding:0 0 4px}
-.hero h2{margin:0 0 2px;font:italic 700 31px/1.15 var(--serif);letter-spacing:-.01em}
-.hero .zh-title{font-size:15px;color:var(--muted)}
+main{max-width:640px;margin:0 auto;padding:0 16px calc(32px + var(--safe-b))}
+
+/* 标题：和句子一样能点词、能整句朗读 */
+.hero{padding:0 0 4px;scroll-margin:84px 0 40px}
+.hero .ttl{margin:0 0 2px;font:italic 700 31px/1.3 var(--serif);letter-spacing:-.01em}
+.hero .ttl .w .u{text-decoration-thickness:2px;text-underline-offset:7px}
+.hero .foot{margin-top:2px}
+.hero .zh{font-size:15px;color:var(--muted)}
 
 .para{margin-top:24px}
 
@@ -75,6 +78,20 @@ main{max-width:640px;margin:0 auto;padding:0 16px calc(48px + var(--safe-b))}
 .spk.playing .wv2{animation:wave 1s ease-in-out .25s infinite}
 @keyframes wave{0%,100%{opacity:.25}50%{opacity:1}}
 
+/* ---------- 文章列表（每篇文章结尾） ---------- */
+.toc{margin:40px 0 0}
+.toc h3{margin:0 0 12px;font-size:15px;font-weight:700;color:var(--muted)}
+.toc-g{margin:0 0 18px}
+.toc-gh{margin:0 0 8px 2px;font:600 12px/1 var(--sans);letter-spacing:.04em;color:var(--faint)}
+.toc-i{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;align-items:baseline;width:100%;margin:0 0 8px;
+  padding:12px 14px;border-radius:14px;background:var(--surface);box-shadow:var(--shadow);text-align:left}
+.toc-i:active{background:var(--accent-soft)}
+.toc-l{grid-row:span 2;min-width:22px;font:600 12px/1.6 var(--sans);color:var(--faint);white-space:nowrap}
+.toc-t{font:italic 600 16px/1.35 var(--serif);color:var(--text)}
+.toc-z{font-size:13px;line-height:1.5;color:var(--muted)}
+.toc-i.cur{box-shadow:inset 3px 0 0 var(--accent),var(--shadow)}
+.toc-i.cur .toc-l{color:var(--accent-text)}
+
 /* ---------- 单词小气泡：在词的上方（顶上放不下就在下方），尖角对准这个词 ---------- */
 .tip{position:absolute;z-index:40;max-width:min(280px,calc(100vw - 16px));padding:6px 12px;border-radius:10px;
   background:var(--accent);color:var(--accent-ink);font:600 16px/1.45 var(--sans);
@@ -83,8 +100,6 @@ main{max-width:640px;margin:0 auto;padding:0 16px calc(48px + var(--safe-b))}
   background:inherit;transform:rotate(45deg)}
 .tip.below::after{top:-5px;bottom:auto}
 @keyframes pop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-
-.end{margin:28px 0 0;text-align:center;font-size:13px;color:var(--faint)}
 
 /* ---------- toast ---------- */
 .toast{position:fixed;left:50%;bottom:calc(24px + var(--safe-b));z-index:50;transform:translate(-50%,10px);max-width:calc(100% - 32px);
@@ -97,257 +112,172 @@ main{max-width:640px;margin:0 auto;padding:0 16px calc(48px + var(--safe-b))}
 </head>
 <body>
 
-<header class="bar" id="bar">
-  <h1>Johnson’s Dictionary</h1>
-</header>
-
-<main id="main">
-  <section class="hero">
-    <h2>Johnson’s Dictionary</h2>
-    <div class="zh-title">约翰逊的词典</div>
-  </section>
-
-  <div id="text"></div>
-  <p class="end">— 全文完 · 32 句 —</p>
-</main>
-
+<header class="bar" id="bar"><h1 id="barTitle"></h1></header>
+<main id="main"></main>
 <div class="tip" id="tip" lang="zh-CN" hidden></div>
 <div class="toast" id="toast" role="status"></div>
 
-<!-- 每句录音的文件名和逐词时间（tools/audio 生成） -->
-<script src="audio/timings.js"></script>
+<!-- 文章目录 和 单词录音表；每篇文章的内容（articles/*.js）和录音时间（audio/*/timings.js）打开时再加载 -->
+<script src="articles/index.js"></script>
+<script src="audio/words.js"></script>
 <script>
 (() => {
 'use strict';
 
-/* ================= 文章数据（剑桥雅思 5 · Test 1 · Passage 1）=================
-   每句：[英文, 中文, 朗读替换(可选)]   _斜体_ 标记书名
-   朗读替换只影响发音，不影响显示（例如旧拼写、人名读音、日期读法）。 */
-const PARAS = [
-  [
-    ['For the century before Johnson’s _Dictionary_ was published in 1775, there had been concern about the state of the English language.',
-     '在约翰逊的《词典》于1775年出版之前的一个世纪里，人们一直对英语的状况忧心忡忡。'],
-    ['There was no standard way of speaking or writing and no agreement as to the best way of bringing some order to the chaos of English spelling.',
-     '当时既没有标准的说话或书写方式，对于怎样让混乱的英语拼写变得有序，人们也未能达成共识。'],
-    ['Dr Johnson provided the solution.',
-     '约翰逊博士给出了解决办法。'],
-  ],
-  [
-    ['There had, of course, been dictionaries in the past, the first of these being a little book of some 120 pages, compiled by a certain Robert Cawdray, published in 1604 under the title _A Table Alphabeticall_ ‘of hard usuall English wordes’.',
-     '当然，过去也曾有过词典，其中最早的一部是一本约120页的小书，由一位名叫罗伯特·考德雷的人编纂，于1604年出版，书名为《字母顺序表》，收录“常用的英语难词”。'],
-    ['Like the various dictionaries that came after it during the seventeenth century, Cawdray’s tended to concentrate on ‘scholarly’ words; one function of the dictionary was to enable its student to convey an impression of fine learning.',
-     '和17世纪继它之后出现的各种词典一样，考德雷的词典往往侧重于“学术性”词汇；词典的功能之一，是让使用者能给人留下学识渊博的印象。'],
-  ],
-  [
-    ['Beyond the practical need to make order out of chaos, the rise of dictionaries is associated with the rise of the English middle class, who were anxious to define and circumscribe the various worlds to conquer – lexical as well as social and commercial.',
-     '除了在混乱中建立秩序的现实需要之外，词典的兴起还与英国中产阶级的崛起有关——他们渴望界定并划清自己要征服的各个领域：不仅是词汇领域，还有社会和商业领域。'],
-    ['It is highly appropriate that Dr Samuel Johnson, the very model of an eighteenth-century literary man, as famous in his own time as in ours, should have published his _Dictionary_ at the very beginning of the heyday of the middle class.',
-     '塞缪尔·约翰逊博士堪称18世纪文人的典范，在他那个时代和在我们这个时代同样声名显赫；由他在中产阶级鼎盛时期刚刚开始之际出版这部《词典》，实在是再合适不过了。'],
-  ],
-  [
-    ['Johnson was a poet and critic who raised common sense to the heights of genius.',
-     '约翰逊是一位诗人兼评论家，他把常识提升到了天才的高度。'],
-    ['His approach to the problems that had worried writers throughout the late seventeenth and early eighteenth centuries was intensely practical.',
-     '17世纪末到18世纪初，有些问题一直困扰着作家们，而他解决这些问题的方法极其务实。'],
-    ['Up until his time, the task of producing a dictionary on such a large scale had seemed impossible without the establishment of an academy to make decisions about right and wrong usage.',
-     '在他之前，如果不成立一个学会来裁定用法的对错，编纂如此大规模的词典似乎是不可能完成的任务。'],
-    ['Johnson decided he did not need an academy to settle arguments about language; he would write a dictionary himself; and he would do it single-handed.',
-     '约翰逊认定，他不需要一个学会来平息有关语言的争论；他要亲自编写一部词典，而且要独力完成。'],
-    ['Johnson signed the contract for the _Dictionary_ with the bookseller Robert Dosley at a breakfast held at the Golden Anchor Inn near Holborn Bar on 18 June 1764.',
-     '1764年6月18日，在霍尔本栅门附近的金锚旅馆举行的一次早餐会上，约翰逊与书商罗伯特·多斯利签订了编纂《词典》的合同。',
-     {'18': 'the eighteenth of'}],
-    ['He was to be paid £1,575 in instalments, and from this he took money to rent 17 Gough Square, in which he set up his ‘dictionary workshop’.',
-     '他将分期获得1575英镑的报酬，他从中拿出钱租下了高夫广场17号，并在那里建起了他的“词典工作坊”。'],
-  ],
-  [
-    ['James Boswell, his biographer, described the garret where Johnson worked as ‘fitted up like a counting house’ with a long desk running down the middle at which the copying clerks would work standing up.',
-     '他的传记作者詹姆斯·鲍斯韦尔描述说，约翰逊工作的那间阁楼“布置得像一间账房”，中间摆着一张长桌，抄写员们就站在桌边工作。'],
-    ['Johnson himself was stationed on a rickety chair at an ‘old crazy deal table’ surrounded by a chaos of borrowed books.',
-     '约翰逊本人则坐在一把摇摇晃晃的椅子上，面对一张“破旧不堪的松木桌”，周围乱七八糟地堆满了借来的书。'],
-    ['He was also helped by six assistants, two of whom died whilst the _Dictionary_ was still in preparation.',
-     '还有六名助手协助他，其中两人在《词典》尚在编纂时便去世了。'],
-  ],
-  [
-    ['The work was immense; filling about eighty large notebooks (and without a library to hand), Johnson wrote the definitions of over 40,000 words, and illustrated their many meanings with some 114,000 quotations drawn from English writing on every subject, from the Elizabethans to his own time.',
-     '这项工作极其浩繁：约翰逊写满了约80本大笔记本（而且手边没有图书馆可查），为4万多个单词撰写了释义，并用约11.4万条引文来说明这些词的多种含义；这些引文摘自各种主题的英语著作，从伊丽莎白时代一直到他所处的时代。'],
-    ['He did not expect to achieve complete originality.',
-     '他并没有指望做到完全原创。'],
-    ['Working to a deadline, he had to draw on the best of all previous dictionaries, and to make his work one of heroic synthesis.',
-     '由于要按期完成，他不得不借鉴以往所有词典的精华，使自己的著作成为一部宏伟的集大成之作。'],
-    ['In fact, it was very much more.',
-     '事实上，它的意义远不止于此。'],
-    ['Unlike his predecessors, Johnson treated English very practically, as a living language, with many different shades of meaning.',
-     '与前人不同，约翰逊以非常务实的态度对待英语，把它看作一门活的语言，有着许多细微的含义差别。'],
-    ['He adopted his definitions on the principle of English common law – according to precedent.',
-     '他依据英国普通法的原则——即遵循先例——来确定词语的释义。'],
-    ['After its publication, his _Dictionary_ was not seriously rivalled for over a century.',
-     '《词典》出版后的一个多世纪里，都没有出现能与之真正匹敌的作品。'],
-  ],
-  [
-    ['After many vicissitudes the _Dictionary_ was finally published on 15 April 1775.',
-     '历经种种波折，《词典》终于在1775年4月15日出版。',
-     {'15': 'the fifteenth of'}],
-    ['It was instantly recognised as a landmark throughout Europe.',
-     '它一问世就被公认为全欧洲的一座里程碑。'],
-    ['‘This very noble work,’ wrote the leading Italian lexicographer, ‘will be a perpetual monument of Fame to the Author, an Honour to his own Country in particular, and a general Benefit to the republic of Letters throughout Europe.’',
-     '“这部无比卓越的著作，”意大利首屈一指的词典编纂家写道，“将成为作者永恒的荣誉丰碑，尤其是其祖国的光荣，也将普遍惠及全欧洲的文坛。”'],
-    ['The fact that Johnson had taken on the Academies of Europe and matched them (everyone knew that forty French academics had taken forty years to produce the first French national dictionary) was cause for much English celebration.',
-     '约翰逊向欧洲各国的学会发起挑战，并与之比肩（人人都知道，40位法国院士花了40年才编成第一部法国国家词典），这让英国人大为欢庆。'],
-  ],
-  [
-    ['Johnson had worked for nine years, ‘with little assistance of the learned, and without any patronage of the great; not in the soft obscurities of retirement, or under the shelter of academic bowers, but amidst inconvenience and distraction, in sickness and in sorrow’.',
-     '约翰逊为此工作了九年，“几乎没有得到学者的帮助，也没有得到任何权贵的资助；不是在隐退的安逸幽静之中，也不是在学院的庇护之下，而是在种种不便与干扰之中，在病痛与悲伤之中”。'],
-    ['For all its faults and eccentricities his two-volume work is a masterpiece and a landmark, in his own words, ‘setting the orthography, displaying the analogy, regulating the structures, and ascertaining the significations of English words’.',
-     '尽管有种种缺点和古怪之处，这部两卷本的著作依然是一部杰作、一座里程碑，用他自己的话说，它“规定了英语单词的拼写，展示了构词的类推规律，规范了词语的结构，并确定了词义”。'],
-    ['It is the cornerstone of Standard English, an achievement which, in James Boswell’s words, ‘conferred stability on the language of his country’.',
-     '它是标准英语的基石；用詹姆斯·鲍斯韦尔的话说，这一成就“使他祖国的语言得以稳定”。'],
-  ],
-  [
-    ['The _Dictionary_, together with his other writing, made Johnson famous and so well esteemed that his friends were able to prevail upon King George III to offer him a pension.',
-     '这部《词典》连同他的其他作品，使约翰逊声名远扬、备受尊敬，以至于他的朋友们能够说服国王乔治三世给他发放一笔年金。'],
-    ['From then on, he was to become the Johnson of folklore.',
-     '从那以后，他就成了民间传说中的那个约翰逊。'],
-  ],
-];
-
-// 全局读音替换：旧拼写、专有名词读音、缩写
-const SAY = {
-  'Dr': 'Doctor',
-  'Alphabeticall': 'Alphabetical', 'usuall': 'usual', 'wordes': 'words',
-  'Cawdray': 'Cawdry', 'Cawdray’s': 'Cawdry’s',
-  'Gough': 'Goff', 'Holborn': 'Hoeburn',
-  'III': 'the Third',
-  '£1,575': 'one thousand five hundred and seventy-five pounds',
+const $ = id => document.getElementById(id);
+const APP = window.AndroidApp || null;   // 在 Android 应用里运行（见 android/）
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const RATE = 0.8;                        // 朗读速度固定 0.8×（整句和单词都是）
+const SAY_ALL = {                        // 全书通用的读法；每篇文章可以在 say 里补充
+  'Dr': 'Doctor', '&': 'and', 'A-Z': 'A to Z', 'e.g': 'for example', 'i.e': 'that is',
+  'km': 'kilometers', 'kms': 'kilometers', 'cm': 'centimeters', 'mm': 'millimeters', 'kg': 'kilograms',
 };
+const LIST = self.ARTICLES || [];        // [{ id, group, label, title, zh }]
+const WORDS = self.WORD_AUDIO || {};     // 单词（小写）-> audio/words/ 里的读音文件
 
-/* 点单词时小气泡里的中文：只从这一句的中文翻译里原样摘出对应这个词的部分。
-   每句一行「英文词=中文」，按词在句中出现的顺序；同一个词出现几次就按顺序各写一次。
-   没写的词（the、of 这类在译文里没有对应字的）点了只发音、不弹气泡。 */
-const GLOSS = [
-  /* 1 */ 'century=一个世纪 before=之前 Johnson’s=约翰逊的 Dictionary=词典 published=出版 1775=1775年 concern=忧心忡忡 state=状况 English=英语 language=英语',
-  /* 2 */ 'no=没有 standard=标准 way=方式 speaking=说话 or=或 writing=书写 no=未能 agreement=共识 as=对于 to=对于 way=怎样 bringing=让 order=有序 chaos=混乱 English=英语 spelling=拼写',
-  /* 3 */ 'Dr=博士 Johnson=约翰逊 provided=给出 solution=解决办法',
-  /* 4 */ 'of=当然 course=当然 dictionaries=词典 past=过去 first=最早 these=其中 being=是 little=小 book=书 some=约 120=120 pages=页 compiled=编纂 certain=一位名叫 Robert=罗伯特 Cawdray=考德雷 published=出版 1604=1604年 title=书名 Table=表 Alphabeticall=字母顺序 hard=难 usuall=常用 English=英语 wordes=词',
-  /* 5 */ 'Like=一样 various=各种 dictionaries=词典 came=出现 after=之后 it=它 seventeenth=17世纪 century=世纪 Cawdray’s=考德雷的 tended=往往 concentrate=侧重于 scholarly=学术性 words=词汇 one=之一 function=功能 dictionary=词典 enable=让 student=使用者 convey=给人留下 impression=印象 fine=渊博 learning=学识',
-  /* 6 */ 'Beyond=除了 practical=现实 need=需要 make=建立 order=秩序 chaos=混乱 rise=兴起 dictionaries=词典 associated=有关 rise=崛起 English=英国 middle=中产 class=阶级 who=他们 anxious=渴望 define=界定 and=并 circumscribe=划清 various=各个 worlds=领域 conquer=征服 lexical=词汇 as=还有 well=还有 as=还有 social=社会 and=和 commercial=商业',
-  /* 7 */ 'highly=再合适不过 appropriate=合适 Dr=博士 Samuel=塞缪尔 Johnson=约翰逊 model=典范 eighteenth-century=18世纪 literary=文人 man=文人 as=同样 famous=声名显赫 time=时代 as=同样 ours=我们 published=出版 Dictionary=词典 beginning=刚刚开始 heyday=鼎盛时期 middle=中产 class=阶级',
-  /* 8 */ 'Johnson=约翰逊 was=是 poet=诗人 and=兼 critic=评论家 who=他 raised=提升 common=常识 sense=常识 heights=高度 genius=天才',
-  /* 9 */ 'His=他 approach=方法 problems=问题 worried=困扰 writers=作家们 throughout=一直 late=末 seventeenth=17世纪 early=初 eighteenth=18世纪 centuries=世纪 intensely=极其 practical=务实',
-  /* 10 */ 'until=之前 his=他 task=任务 producing=编纂 dictionary=词典 such=如此 large=大 scale=规模 seemed=似乎 impossible=不可能 without=如果不 establishment=成立 academy=学会 decisions=裁定 right=对 wrong=错 usage=用法',
-  /* 11 */ 'Johnson=约翰逊 decided=认定 he=他 not=不 need=需要 academy=学会 settle=平息 arguments=争论 about=有关 language=语言 he=他 write=编写 dictionary=词典 himself=亲自 and=而且 do=完成 single-handed=独力',
-  /* 12 */ 'Johnson=约翰逊 signed=签订 contract=合同 Dictionary=词典 with=与 bookseller=书商 Robert=罗伯特 Dosley=多斯利 breakfast=早餐会 held=举行 Golden=金 Anchor=锚 Inn=旅馆 near=附近 Holborn=霍尔本 Bar=栅门 18=18日 June=6月 1764=1764年',
-  /* 13 */ 'He=他 paid=报酬 £1,575=1575英镑 instalments=分期 from=从中 he=他 took=拿出 money=钱 rent=租下 17=17号 Gough=高夫 Square=广场 which=那里 he=他 set=建起 his=他的 dictionary=词典 workshop=工作坊',
-  /* 14 */ 'James=詹姆斯 Boswell=鲍斯韦尔 his=他的 biographer=传记作者 described=描述 garret=阁楼 Johnson=约翰逊 worked=工作 fitted=布置 like=像 counting=账房 house=账房 long=长 desk=桌 running=摆着 middle=中间 copying=抄写 clerks=抄写员 work=工作 standing=站',
-  /* 15 */ 'Johnson=约翰逊 himself=本人 stationed=坐 rickety=摇摇晃晃 chair=椅子 old=破旧 crazy=破旧不堪 deal=松木 table=桌 surrounded=周围 chaos=乱七八糟 borrowed=借来 books=书',
-  /* 16 */ 'He=他 also=还 helped=协助 six=六名 assistants=助手 two=两人 whom=其中 died=去世 whilst=时 Dictionary=词典 still=尚在 preparation=编纂',
-  /* 17 */ 'work=工作 immense=极其浩繁 filling=写满 about=约 eighty=80 large=大 notebooks=笔记本 and=而且 without=没有 library=图书馆 hand=手边 Johnson=约翰逊 wrote=撰写 definitions=释义 over=4万多 40,000=4万 words=单词 and=并 illustrated=说明 their=这些词 many=多种 meanings=含义 some=约 114,000=11.4万 quotations=引文 drawn=摘自 English=英语 writing=著作 every=各种 subject=主题 from=从 Elizabethans=伊丽莎白时代 to=一直到 his=他 time=时代',
-  /* 18 */ 'He=他 not=没有 expect=指望 achieve=做到 complete=完全 originality=原创',
-  /* 19 */ 'Working=按期完成 deadline=按期 he=他 had=不得不 draw=借鉴 best=精华 all=所有 previous=以往 dictionaries=词典 make=使 his=自己的 work=著作 heroic=宏伟 synthesis=集大成之作',
-  /* 20 */ 'In=事实上 fact=事实上 it=它 very=远 much=远 more=不止于此',
-  /* 21 */ 'Unlike=不同 predecessors=前人 Johnson=约翰逊 treated=对待 English=英语 very=非常 practically=务实 as=看作 living=活 language=语言 many=许多 different=差别 shades=细微 meaning=含义',
-  /* 22 */ 'He=他 adopted=确定 definitions=释义 on=依据 principle=原则 English=英国 common=普通法 law=普通法 according=遵循 precedent=先例',
-  /* 23 */ 'After=后 publication=出版 Dictionary=词典 not=没有 seriously=真正 rivalled=匹敌 over=多 century=世纪',
-  /* 24 */ 'After=历经 many=种种 vicissitudes=波折 Dictionary=词典 finally=终于 published=出版 15=15日 April=4月 1775=1775年',
-  /* 25 */ 'It=它 instantly=一问世就 recognised=公认 landmark=里程碑 throughout=全 Europe=欧洲',
-  /* 26 */ 'This=这部 very=无比 noble=卓越 work=著作 wrote=写道 leading=首屈一指 Italian=意大利 lexicographer=词典编纂家 will=将 perpetual=永恒 monument=丰碑 Fame=荣誉 Author=作者 Honour=光荣 his=其 Country=祖国 particular=尤其 general=普遍 Benefit=惠及 republic=文坛 Letters=文坛 throughout=全 Europe=欧洲',
-  /* 27 */ 'Johnson=约翰逊 taken=发起挑战 Academies=学会 Europe=欧洲 and=并 matched=比肩 them=之 everyone=人人 knew=知道 forty=40 French=法国 academics=院士 taken=花了 forty=40 years=年 produce=编成 first=第一部 French=法国 national=国家 dictionary=词典 cause=让 much=大为 English=英国人 celebration=欢庆',
-  /* 28 */ 'Johnson=约翰逊 worked=工作 nine=九 years=年 little=几乎没有 assistance=帮助 learned=学者 without=没有 any=任何 patronage=资助 great=权贵 not=不是 soft=安逸 obscurities=幽静 retirement=隐退 or=也不是 under=之下 shelter=庇护 academic=学院 bowers=学院 but=而是 amidst=之中 inconvenience=不便 and=与 distraction=干扰 sickness=病痛 and=与 sorrow=悲伤',
-  /* 29 */ 'For=尽管 all=种种 faults=缺点 and=和 eccentricities=古怪之处 two-volume=两卷本 work=著作 is=是 masterpiece=杰作 landmark=里程碑 his=他自己的 words=话 setting=规定 orthography=拼写 displaying=展示 analogy=类推规律 regulating=规范 structures=结构 and=并 ascertaining=确定 significations=词义 English=英语 words=单词',
-  /* 30 */ 'It=它 is=是 cornerstone=基石 Standard=标准 English=英语 achievement=成就 James=詹姆斯 Boswell’s=鲍斯韦尔的 words=话 conferred=使 stability=稳定 language=语言 his=他 country=祖国',
-  /* 31 */ 'Dictionary=词典 together=连同 with=连同 his=他的 other=其他 writing=作品 made=使 Johnson=约翰逊 famous=声名远扬 so=以至于 well=备受 esteemed=尊敬 that=以至于 his=他的 friends=朋友们 able=能够 prevail=说服 upon=说服 King=国王 George=乔治 III=三世 offer=发放 him=他 pension=年金',
-  /* 32 */ 'From=从 then=那 on=以后 he=他 become=成了 Johnson=约翰逊 folklore=民间传说',
-];
+/* ================= 文章数据 =================
+   articles/<id>.js 调用 ARTICLE({ id, say, title, paras })：
+     title 和每一句都是 [英文, 中文, 词义, 读法替换(可选)]；_斜体_ 标记书名。
+     词义是「英文词=中文」，用空格隔开，按词在句中出现的顺序，中文只从这一句的译文里原样摘取；
+     没写的词点了只发音。读法替换只影响发音（旧拼写、人名、日期等），不影响显示。 */
+const store = {};                        // id -> { data, timings, built }
+self.ARTICLE = a => { (store[a.id] = store[a.id] || {}).data = a; };
+self.TIMINGS = (id, t) => { (store[id] = store[id] || {}).timings = t; };
+
+function loadScript(src) {
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = src; s.onload = res; s.onerror = () => rej(new Error('加载失败：' + src));
+    document.head.appendChild(s);
+  });
+}
 
 /* ================= 解析 ================= */
-const SENTS = [];   // {p, en, zh, toks, speech}：speech 是生成录音用的朗读文本，toks[].start 是每个词在里面的位置
-
-function parseSentence(raw, over) {
-  const toks = [];
+function parseUnit(raw, say, over) {
+  const toks = [], parts = raw.split(/\s+/);
   let italicOn = false, speech = '';
-  for (let t of raw.split(/\s+/)) {
+  parts.forEach((t, n) => {
     let italic = italicOn;
     if (t.includes('_')) {
-      if (/^[^\p{L}\p{N}£]*_/u.test(t)) { italicOn = true; italic = true; }
+      if (/^[^\p{L}\p{N}£$&]*_/u.test(t)) { italicOn = true; italic = true; }
       if (/_[^\p{L}\p{N}]*$/u.test(t)) italicOn = false;
       t = t.replace(/_/g, '');
     }
-    const m = t.match(/^([^\p{L}\p{N}£]*)(.*?)([^\p{L}\p{N}]*)$/u);
+    const m = t.match(/^([^\p{L}\p{N}£$&]*)(.*?)([^\p{L}\p{N}%&]*)$/u);
     const lead = m[1], core = m[2], trail = m[3];
     if (speech) speech += ' ';
     const start = speech.length;
     if (!core) {                         // 单独的破折号等
       speech += ',';
     } else {
-      const say = (over && over[core]) || SAY[core] || core;
-      const clean = s => s.replace(/[‘’“”"']/g, '');
-      speech += clean(lead) + say.replace(/’/g, "'") + clean(trail);
+      const s = (over && over[core]) || say[core] || core;
+      const clean = x => x.replace(/[‘’“”"']/g, '');
+      let tr = clean(trail);
+      // 缩写换成整词读（e.g. -> for example）时，句中缩写点不读成句号
+      if (s !== core && core.includes('.') && tr[0] === '.' && n < parts.length - 1) tr = tr.slice(1);
+      speech += clean(lead) + s.replace(/’/g, "'") + tr;
     }
     toks.push({ lead, core, trail, italic, start });
-  }
+  });
   return { toks, speech };
 }
 
-PARAS.forEach((para, p) => para.forEach(([en, zh, over]) => {
-  SENTS.push({ p, en: en.replace(/_/g, ''), zh, ...parseSentence(en, over) });
-}));
-const N = SENTS.length;
-
-// 把 GLOSS 挂到对应的词上（tok.gloss）；对不上的记下来，测试会检查
 const normWord = w => w.replace(/’/g, "'").toLowerCase();
-const glossErrors = [];
-SENTS.forEach((s, i) => {
+
+// 把「英文词=中文」挂到对应的词上（tok.gloss）；对不上的记进 errors，测试会检查
+function applyGloss(u, gloss, errors, where) {
   let j = 0;
-  for (const pair of (GLOSS[i] || '').split(/\s+/).filter(Boolean)) {
+  for (const pair of (gloss || '').split(/\s+/).filter(Boolean)) {
     const [en, zh] = pair.split('='), from = j;
-    while (j < s.toks.length && normWord(s.toks[j].core) !== normWord(en)) j++;
-    if (j === s.toks.length || !zh || !s.zh.includes(zh)) { glossErrors.push(`第 ${i + 1} 句：${pair}`); j = from; continue; }
-    s.toks[j++].gloss = zh;
+    while (j < u.toks.length && normWord(u.toks[j].core) !== normWord(en)) j++;
+    if (j === u.toks.length || !zh || !u.zh.includes(zh)) { errors.push(`${where}：${pair}`); j = from; continue; }
+    u.toks[j++].gloss = zh;
   }
-});
-if (glossErrors.length) console.warn('GLOSS 对不上：', glossErrors);
+}
 
-/* ================= 设置 ================= */
-const RATE = 0.8;       // 朗读速度固定 0.8×（整句和单词都是）
-const KEY = 'jd-reader-v1';
-let S = { cur: -1 };    // 上次点过的句子，下次打开回到这里
-try { const o = JSON.parse(localStorage.getItem(KEY) || '{}'); if (o && o.cur >= 0 && o.cur < N) S.cur = o.cur; } catch (e) {}
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+function buildArticle(a) {
+  const say = Object.assign({}, SAY_ALL, a.say), units = [], errors = [];
+  const add = ([en, zh, gloss, over], p) => {
+    const u = { p, en: en.replace(/_/g, ''), zh, ...parseUnit(en, say, over) };
+    applyGloss(u, gloss, errors, `${a.id} ${units.length ? '第 ' + units.length + ' 句' : '标题'}`);
+    units.push(u);
+  };
+  add(a.title, -1);                      // units[0] 是标题
+  a.paras.forEach((para, p) => para.forEach(row => add(row, p)));
+  return { id: a.id, units, say, errors };
+}
 
-/* ================= DOM ================= */
-const $ = id => document.getElementById(id);
-const APP = window.AndroidApp || null;   // 在 Android 应用里运行（见 android/）
-const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+async function ensure(id) {
+  if (!(store[id] && store[id].data)) await loadScript(`articles/${id}.js`);
+  if (!store[id].timings) await loadScript(`audio/${id}/timings.js`).catch(() => {});
+  if (!store[id].built) store[id].built = buildArticle(store[id].data);
+  return store[id].built;
+}
 
+/* ================= 显示 ================= */
+let A = null;                            // 当前文章
+const uEl = i => $('u' + i);
 const ICON_SPK = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3.8 9.4h3.4l4.5-3.9a.6.6 0 0 1 1 .45v12.1a.6.6 0 0 1-1 .45l-4.5-3.9H3.8a.8.8 0 0 1-.8-.8V10.2a.8.8 0 0 1 .8-.8z" fill="currentColor" stroke="none"/><path class="wv wv1" d="M15.6 9.3a4 4 0 0 1 0 5.4"/><path class="wv wv2" d="M18.3 6.6a7.9 7.9 0 0 1 0 10.8"/></svg>';
 
-function renderText() {
-  let html = '', lastP = -1;
-  SENTS.forEach((s, i) => {
-    if (s.p !== lastP) {
-      if (lastP >= 0) html += '</section>';
-      html += '<section class="para">';
-      lastP = s.p;
+const wordsHtml = u => u.toks.map((t, k) => t.core
+  ? `<span class="w" data-k="${k}">${esc(t.lead)}<span class="u">${t.italic ? '<i>' : ''}${esc(t.core)}${t.italic ? '</i>' : ''}</span>${esc(t.trail)}</span>`
+  : esc(t.lead + t.trail)).join(' ');
+const footHtml = (u, i) => `<div class="foot">
+      <p class="zh" lang="zh-CN">${esc(u.zh)}</p>
+      <button class="spk" aria-label="${i ? `朗读第${i}句` : '朗读标题'}">${ICON_SPK}</button>
+    </div>`;
+
+function tocHtml(cur) {
+  let html = '<nav class="toc" aria-label="文章列表"><h3>文章列表</h3>', group = null;
+  for (const a of LIST) {
+    if (a.group !== group) {
+      if (group !== null) html += '</div>';
+      html += `<div class="toc-g"><div class="toc-gh">${esc(a.group)}</div>`;
+      group = a.group;
     }
-    const words = s.toks.map((t, k) => t.core
-      ? `<span class="w" data-k="${k}">${esc(t.lead)}<span class="u">${t.italic ? '<i>' : ''}${esc(t.core)}${t.italic ? '</i>' : ''}</span>${esc(t.trail)}</span>`
-      : esc(t.lead + t.trail)).join(' ');
-    html += `<article class="s" id="s${i}" data-i="${i}">
-      <div class="num">${i + 1}</div>
+    html += `<button class="toc-i${a.id === cur ? ' cur' : ''}" data-id="${a.id}">
+      <span class="toc-l">${esc(a.label)}</span><span class="toc-t" lang="en">${esc(a.title)}</span><span class="toc-z">${esc(a.zh)}</span>
+    </button>`;
+  }
+  return html + '</div></nav>';
+}
+
+function render(art) {
+  A = art;
+  const [title, ...sents] = art.units;
+  let html = `<section class="hero" id="u0" data-i="0">
+    <h2 class="en ttl" lang="en">${wordsHtml(title)}</h2>
+    ${footHtml(title, 0)}
+  </section>`, lastP = -1;
+  sents.forEach((s, j) => {
+    const i = j + 1;
+    if (s.p !== lastP) { html += (lastP >= 0 ? '</section>' : '') + '<section class="para">'; lastP = s.p; }
+    html += `<article class="s" id="u${i}" data-i="${i}">
+      <div class="num">${i}</div>
       <div>
-        <p class="en" lang="en">${words}</p>
-        <div class="foot">
-          <p class="zh" lang="zh-CN">${esc(s.zh)}</p>
-          <button class="spk" aria-label="朗读第${i + 1}句">${ICON_SPK}</button>
-        </div>
+        <p class="en" lang="en">${wordsHtml(s)}</p>
+        ${footHtml(s, i)}
       </div>
     </article>`;
   });
-  html += '</section>';
-  $('text').innerHTML = html;
+  $('main').innerHTML = html + '</section>' + tocHtml(art.id);
+  $('barTitle').textContent = title.en;
+  document.title = title.en;
+  cur = -1;
 }
-renderText();
 
-const sEl = i => $('s' + i);
+async function openArticle(id) {
+  stop();
+  hideTip();
+  try {
+    render(await ensure(id));
+  } catch (e) {
+    toast(String(e.message || e), 4000);
+    return;
+  }
+  scrollTo(0, 0);
+  onScroll();
+}
 
 /* ================= Toast ================= */
 let toastT = 0;
@@ -357,14 +287,13 @@ function toast(msg, ms = 2600) {
 }
 
 /* ================= 录音（内置美式英语） =================
-   audio/ 里每句一个 mp3，audio/words/ 里每个单词一个 mp3，都是用 Kokoro 美式英语发音人预先生成的，
-   不依赖手机自带的语音引擎；timings.js 里记录每句中每个词开始的时间，用来逐词高亮。 */
-const AUDIO = self.SENT_AUDIO || [];
-const WORDS = self.WORD_AUDIO || {};      // 单词（小写）-> 读音文件
-const wordSay = t => (SAY[t.core] || t.core).replace(/’/g, "'");   // 单词单独怎么读（不用整句里的特殊读法）
-const wordKey = t => wordSay(t).toLowerCase();
+   audio/<文章>/00.mp3 是标题，01.mp3… 是每句；audio/words/ 里每个单词一个 mp3。
+   都是用 Kokoro 美式英语发音人预先生成的（见 tools/audio），不依赖手机自带的语音引擎；
+   audio/<文章>/timings.js 记录每句中每个词开始的时间，用来逐词高亮。 */
 const player = new Audio();
 const urls = new Map();     // 路径 -> Promise<blob URL>：整段先读进内存再播，安卓 WebView 里更稳
+const wordSay = (t, say) => ((say || A.say)[t.core] || t.core).replace(/’/g, "'");   // 单词单独怎么读（不用整句里的特殊读法）
+const wordKey = (t, say) => wordSay(t, say).toLowerCase();
 
 function blobUrl(path) {
   if (!urls.has(path)) {
@@ -381,15 +310,15 @@ let stopAudio = null;   // 正在播放的那段：调用它立即结束
 let litTok = null;
 
 function lightTok(i, k) {
-  const el = k == null ? null : sEl(i).querySelector(`.w[data-k="${k}"]`);
+  const el = k == null || !uEl(i) ? null : uEl(i).querySelector(`.w[data-k="${k}"]`);
   if (el === litTok) return;
   if (litTok) litTok.classList.remove('on');
   litTok = el;
   if (el) el.classList.add('on');
 }
-function tokAtChar(s, ci) {
+function tokAtChar(u, ci) {
   let k = null;
-  for (let j = 0; j < s.toks.length; j++) { if (s.toks[j].start <= ci) { if (s.toks[j].core) k = j; } else break; }
+  for (let j = 0; j < u.toks.length; j++) { if (u.toks[j].start <= ci) { if (u.toks[j].core) k = j; } else break; }
   return k;
 }
 
@@ -401,7 +330,7 @@ function stop() {
 /** 播放一段录音；给了 marks（整句）就跟着逐词高亮。结束或被打断时调 onEnd。 */
 function playClip(path, i, marks, onEnd) {
   stop();
-  const s = SENTS[i];
+  const u = A.units[i];
   let done = false, raf = 0;
   const finish = () => {
     if (done) return; done = true;
@@ -416,7 +345,7 @@ function playClip(path, i, marks, onEnd) {
     const t = player.currentTime;
     let j = -1;
     while (j + 1 < marks.length && marks[j + 1][1] <= t) j++;
-    lightTok(i, j < 0 ? null : tokAtChar(s, marks[j][0]));
+    lightTok(i, j < 0 ? null : tokAtChar(u, marks[j][0]));
     raf = requestAnimationFrame(follow);
   };
   blobUrl(path).then(url => {
@@ -432,20 +361,21 @@ function playClip(path, i, marks, onEnd) {
   });
 }
 
-/** 小喇叭：读整句英文；正在读时再点一次就停。 */
-function playSentence(i) {
-  const spk = sEl(i).querySelector('.spk');
+/** 小喇叭：读整句（或标题）英文；正在读时再点一次就停。 */
+function playUnit(i) {
+  const spk = uEl(i).querySelector('.spk');
   if (spk.classList.contains('playing')) { stop(); return; }
   hideTip();
   setCur(i);
-  if (!AUDIO[i]) { toast('没有这句的录音'); return; }
+  const t = store[A.id].timings && store[A.id].timings[i];
+  if (!t) { toast('没有这句的录音'); return; }
   spk.classList.add('playing');
-  playClip('audio/' + AUDIO[i].file, i, AUDIO[i].marks, () => spk.classList.remove('playing'));
+  playClip(`audio/${A.id}/${t.file}`, i, t.marks, () => spk.classList.remove('playing'));
 }
 
 /** 点单词：只读这个词；这个词在本句译文里有对应的中文，就在词旁弹出小气泡。 */
 function tapWord(i, k, el) {
-  const t = SENTS[i].toks[k];
+  const t = A.units[i].toks[k];
   hideTip();
   selWord = el;
   el.classList.add('sel');
@@ -479,42 +409,52 @@ function hideTip() {
 }
 addEventListener('resize', hideTip);
 
+let cur = -1;                            // 正在读或刚点过的句子（卡片左边一条蓝线）
 function setCur(i) {
-  const prev = sEl(S.cur);
-  if (prev) prev.classList.remove('cur');
-  S.cur = i; save();
-  sEl(i).classList.add('cur');
+  if (cur > 0 && uEl(cur)) uEl(cur).classList.remove('cur');
+  cur = i;
+  if (i > 0) uEl(i).classList.add('cur');
 }
 
 /* ================= 交互 ================= */
 document.addEventListener('click', e => {
-  const art = e.target.closest('.s');
-  if (art && e.target.closest('.spk')) { playSentence(+art.dataset.i); return; }
-  const w = art && e.target.closest('.w');
-  if (w) { tapWord(+art.dataset.i, +w.dataset.k, w); return; }
+  const item = e.target.closest('.toc-i');
+  if (item) { openArticle(item.dataset.id); return; }
+  const unit = e.target.closest('[data-i]');
+  if (unit && e.target.closest('.spk')) { playUnit(+unit.dataset.i); return; }
+  const w = unit && e.target.closest('.w');
+  if (w) { tapWord(+unit.dataset.i, +w.dataset.k, w); return; }
   hideTip();                                          // 点气泡或空白处收起
 });
 
-/* ---- 切到后台时停止 ---- */
-document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
-
 /* ---- 顶栏阴影 ---- */
 const onScroll = () => $('bar').classList.toggle('scrolled', window.scrollY > 60);
-addEventListener('scroll', onScroll, { passive: true }); onScroll();
+addEventListener('scroll', onScroll, { passive: true });
+
+/* ---- 每次打开都从第一篇的第一行开始：切到后台超过 5 分钟再回来也一样 ---- */
+const AWAY_MS = 5 * 60 * 1000;
+let hiddenAt = 0;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { stop(); hiddenAt = Date.now(); }
+  else if (hiddenAt && Date.now() - hiddenAt > AWAY_MS) openArticle(LIST[0].id);
+});
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
 /* ================= 离线缓存（网页版；应用里文件本来就在手机上） ================= */
 if (!APP && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
   addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
 
-/* ================= 启动：回到上次的句子 ================= */
-if (S.cur >= 0) {
-  setCur(S.cur);
-  if (S.cur > 0) setTimeout(() => sEl(S.cur).scrollIntoView({ block: 'center' }), 50);
-}
+/* ================= 启动 ================= */
+const ready = LIST.length ? openArticle(LIST[0].id) : Promise.resolve();
 
 // 测试钩子
-window.__reader = { SENTS, AUDIO, WORDS, glossErrors, wordSay, wordKey, player, get state() { return { cur: S.cur, tip: tip.hidden ? null : tip.textContent }; } };
+window.__reader = {
+  LIST, WORDS, player, store, ready, openArticle, ensure, wordSay, wordKey,
+  get art() { return A; },
+  get state() { return { id: A && A.id, cur, tip: tip.hidden ? null : tip.textContent }; },
+  async loadAll() { const out = []; for (const a of LIST) out.push(await ensure(a.id)); return out; },
+};
 })();
 </script>
 </body>

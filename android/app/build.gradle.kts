@@ -10,8 +10,8 @@ android {
         applicationId = "io.github.aodi3622pixel.shadowing"
         minSdk = 26
         targetSdk = 35
-        versionCode = 4
-        versionName = "1.3"
+        versionCode = 5
+        versionName = "2.0"
     }
 
     // 固定的调试签名：在任何电脑或 GitHub Actions 上打的包都能直接覆盖安装，不丢阅读进度

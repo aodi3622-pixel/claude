@@ -1,0 +1,46 @@
+Reading
+
+READING PASSAGE 3
+
+You should spend about 20 minutes on Questions 27-40, which are based on Reading Passage 3
+below.
+
+The Return of Artificial Intelligence
+
+It is becoming acceptable again to talk of computers performing
+human tasks such as problem-solving and pattern-recognition
+
+A After years in the wilderness, the term ‘artificial intelligence’ (Al)
+seems poised to make a comeback. Al was big in the 1980s but
+vanished in the 1990s. It re-entered public consciousness with the
+release of Al, a movie about a robot boy. This has ignited public
+debate about Al, but the term is also being used once more within
+the computer industry. Researchers, executives and marketing
+people are now using the expression without irony or inverted
+commas. And it is not always hype. The term is being applied, with
+some justification, to products that depend on technology that was
+originally developed by Al researchers, Admittedly, the
+rehabilitation of the term has a long way to go, and some firms still
+prefer to avoid using it. But the fact that others are starting to use
+it again suggests that Al has moved on from being seen as an over-
+ambitious and under-achieving field of research.
+
+B The field was launched, and the term ‘artificial intelligence’ coined, at a conference in 1956, by
+a group of researchers that included Marvin Minsky, John McCarthy, Herbert Simon and Alan
+Newell, all of whom went on to become leading figures in the field. The expression provided an
+attractive but informative name for a research programme that encompassed such previously
+disparate fields as operations research, cybernetics, logic and computer science. The goal they
+shared was an attempt to capture or mimic human abilities using machines. That said, different
+groups of researchers attacked different problems, from speech recognition to chess playing, in
+different ways; Al unified the field in name only. But it was a term that captured the public
+imagination.
+
+C Most researchers agree that Al peaked around | 985. A public reared on science-fiction
+movies and excited by the growing power of computers had high expectations. For years,
+
+Al researchers had implied that a breakthrough was just around the corner. Marvin Minsky said
+in 1967 that within a generation the problem of creating ‘artificial intelligence’ would be
+substantially solved. Prototypes of medical-diagnosis programs and speech recognition software
+appeared to be making progress. It proved to be a false dawn. Thinking computers and
+
+71

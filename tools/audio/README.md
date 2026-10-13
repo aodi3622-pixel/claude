@@ -1,10 +1,10 @@
 # Recordings
 
-`docs/audio/` holds the American-English recordings and `timings.js`:
+`docs/audio/` holds the American-English recordings:
 
-- one recording per sentence (`s01.mp3` … `s32.mp3`), played by each sentence's speaker button;
-- one per distinct word (`words/*.mp3`), played when a word is tapped;
-- `timings.js`, which records when each word starts in its sentence (for the word highlighting) and maps each word to its file.
+- `<article>/00.mp3` is the article's title and `01.mp3`, `02.mp3` … are its sentences, played by the speaker buttons;
+- `<article>/timings.js` records when each word starts in each of those recordings (for the word highlighting);
+- `words/*.mp3` has one recording per distinct word in the whole book, played when a word is tapped, and `words.js` maps each word to its file.
 
 The page and the Android app play these files directly; they don't use the phone's text-to-speech.
 
@@ -12,7 +12,7 @@ The voice is `af_heart` from [Kokoro-82M](https://github.com/hexgrad/kokoro) (Ap
 
 ## Regenerate after changing the text
 
-The recordings are made from the page's own text: each sentence's `SENTS[i].speech` and each word's `wordSay`. Regenerate them whenever `PARAS` or `SAY` in `docs/index.html` changes. The process is deterministic, so unchanged sentences come out byte-identical.
+The recordings are made from the page's own text: each title's and sentence's spoken form (`units[i].speech`, after the `say` replacements) and each word's `wordSay`. Regenerate them whenever an article in `docs/articles/` changes or one is added to `docs/articles/index.js`. Unchanged sentences and words are kept as they are; the process is deterministic anyway.
 
     npm i playwright
     node tools/audio/dump-speech.cjs > speech.json

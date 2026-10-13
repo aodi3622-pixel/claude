@@ -1,7 +1,7 @@
 {
-  "name": "Johnson’s Dictionary 跟读",
+  "name": "剑桥雅思 5 跟读",
   "short_name": "雅思跟读",
-  "description": "剑桥雅思 5 · Test 1 · Reading Passage 1 逐句跟读，离线可用。",
+  "description": "剑桥雅思 5 阅读文章和写作范文逐句跟读，离线可用。",
   "lang": "zh-CN",
   "id": "./",
   "start_url": "./",
