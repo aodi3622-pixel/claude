@@ -1,0 +1,18 @@
+Test 3
+
+CURRENT CAR
+Make:
+Model:
+
+Mileage:
+Colour:
+Condition:
+
+Conti
+
+Year: 1994
+maximum 70,000
+metallic grey
+
+56
+

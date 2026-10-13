@@ -1,7 +1,8 @@
-// 离线缓存：首次打开后，所有文件都存在手机上，断网也能用。
+// 离线缓存（网页版）：页面、文章和录音时间表在安装时就存好；录音第一次播放时存下，以后断网也能听。
 // 修改任何文件后把版本号 +1，手机下次联网打开时会自动更新。
-const CACHE = 'jd-reader-v1';
-const ASSETS = [
+const CACHE = 'yasi-gendu-v6';
+importScripts('articles/index.js');          // 文章目录（self.ARTICLES）
+const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
@@ -9,10 +10,15 @@ const ASSETS = [
   './icons/icon-512.png',
   './icons/maskable-512.png',
   './icons/apple-touch-icon.png',
+  './articles/index.js',
+  './audio/words.js',
 ];
+const ARTICLE_FILES = self.ARTICLES.flatMap(a => [`./articles/${a.id}.js`, `./audio/${a.id}/timings.js`]);
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE)
+    .then(c => c.addAll(CORE).then(() => Promise.all(ARTICLE_FILES.map(f => c.add(f).catch(() => {})))))
+    .then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', e => {
@@ -29,9 +35,13 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(req, { ignoreSearch: true }).then(hit => {
       if (hit) return hit;
-      return fetch(req).catch(() =>
-        req.mode === 'navigate' ? caches.match('./index.html') : Response.error()
-      );
+      return fetch(req).then(res => {
+        if (res.ok && res.status === 200) {               // 录音等：用到时存一份
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(req, copy));
+        }
+        return res;
+      }).catch(() => req.mode === 'navigate' ? caches.match('./index.html') : Response.error());
     })
   );
 });

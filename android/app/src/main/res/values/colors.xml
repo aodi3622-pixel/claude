@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 与网页背景色一致，避免启动时闪一下别的颜色 -->
+    <color name="page_bg">#f5f3ee</color>
+    <color name="icon_bg">#272b5f</color>
+</resources>

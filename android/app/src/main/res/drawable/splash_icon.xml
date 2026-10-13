@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 启动画面图标画布 288dp，只显示中间直径 192dp 的圆；缩到 144dp 让圆角方形完整露出来 -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/splash_logo"
+    android:inset="72dp" />
